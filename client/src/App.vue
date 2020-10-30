@@ -1,11 +1,5 @@
 <template>
-  <b-container fluid class="d-flex flex-column vh-100 overflow-hidden">
-    <link rel="stylesheet"
-        href="https://use.fontawesome.com/releases/v5.2.0/css/all.css"
-        integrity="sha384-hWVjflwFxL6sNzntih27bfxkr27PmbbK/iSvJ+a4+0owXq79v+lsFkW54bOGbiDQ"
-        crossorigin="anonymous">
-    <b-row>
-      <b-col class="p-0">
+<div>
         <b-navbar sticky type="dark" variant="dark">
           <b-navbar-brand to="/">MEVN Template</b-navbar-brand>
             <!-- Right aligned nav items -->
@@ -14,7 +8,7 @@
                 <template #button-content>
                   <i class="fas fa-th"></i>
                 </template>
-                <b-dropdown-item to="/item">Items</b-dropdown-item>
+                <b-dropdown-item to="/task">Tasks</b-dropdown-item>
               </b-nav-item-dropdown>
               <b-nav-item-dropdown v-if="$store.state.isLoggedIn" right no-caret>
                 <template #button-content>
@@ -29,10 +23,8 @@
               </b-navbar-nav>
             </b-navbar-nav>
         </b-navbar>
-      </b-col>
-    </b-row>
     <router-view></router-view>
-  </b-container>
+</div>
 </template>
 
 <script>
@@ -61,5 +53,35 @@ body {
 }
 p {
   margin: 0
+}
+[contenteditable] {
+  outline: none;
+}
+[contenteditable]:hover {
+  cursor: text;
+}
+.editor[contenteditable]:hover, .editor[contenteditable]:focus {
+  background-color: white;
+}
+.card, .card-header, button {
+  border-radius: 0 !important;
+}
+button:hover {
+  outline: none;
+}
+button:focus {
+  outline: none;
+  box-shadow: none;
+  -webkit-box-shadow: none !important;
+}
+.b-form-tags {
+  box-shadow: none !important;
+  border: none;
+}
+.fixed-col-120 {
+  flex: 0 0 120px;
+}
+.fixed-col-175 {
+  flex: 0 0 175px;
 }
 </style>

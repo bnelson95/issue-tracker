@@ -10,6 +10,8 @@ import passport from 'passport'
 import { PORT, MONGO_URI } from './config.js'
 import itemRoutes from './routes/api/item.js'
 import userRoutes from './routes/api/user.js'
+import taskRoutes from './routes/api/tasks/task.js'
+import taskGroupRoutes from './routes/api/tasks/task-group.js'
 
 const app = express()
 
@@ -36,6 +38,8 @@ config(passport);
 
 app.use('/api/user', userRoutes)
 app.use('/api/item', itemRoutes)
+app.use('/api/task', taskRoutes)
+app.use('/api/task-group', taskGroupRoutes)
 
 app.set({
   "Content-Security-Policy":

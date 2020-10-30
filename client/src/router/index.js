@@ -8,6 +8,8 @@ import Login from '@/components/User/Login'
 import Logout from '@/components/User/Logout'
 import Profile from '@/components/User/Profile'
 import UserService from '@/services/UserService'
+import Tasks from '@/components/Task/Tasks'
+import EditTask from '@/components/Task/EditTask'
 import { store } from '../store'
 
 Vue.use(Router)
@@ -45,6 +47,18 @@ const router = new Router({
       path: '/user/profile',
       name: 'Profile',
       component: Profile,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/task',
+      name: 'Tasks',
+      component: Tasks,
+      meta: { requiresAuth: true }
+    },
+    {
+      path: '/task/:id',
+      name: 'EditTask',
+      component: EditTask,
       meta: { requiresAuth: true }
     }
   ]

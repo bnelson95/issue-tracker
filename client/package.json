@@ -11,6 +11,8 @@
     "axios": "^0.19.2",
     "bootstrap-vue": "^2.18.1",
     "core-js": "^3.6.5",
+    "tiptap": "^1.30.0",
+    "tiptap-extensions": "^1.33.2",
     "vue": "^2.6.11",
     "vue-router": "^3.4.7",
     "vuex": "^3.5.1"
