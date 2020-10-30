@@ -45,5 +45,9 @@ export default {
 <style scoped>
 input {
   border: 0;
+  border-radius: 0;
+}
+input:focus {
+  box-shadow: none;
 }
 </style>
