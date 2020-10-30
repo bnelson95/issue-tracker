@@ -1,30 +1,30 @@
 <template>
-<div>
-        <b-navbar sticky type="dark" variant="dark">
-          <b-navbar-brand to="/">MEVN Template</b-navbar-brand>
-            <!-- Right aligned nav items -->
-            <b-navbar-nav class="ml-auto">
-              <b-nav-item-dropdown v-if="$store.state.isLoggedIn" right no-caret>
-                <template #button-content>
-                  <i class="fas fa-th"></i>
-                </template>
-                <b-dropdown-item to="/task">Tasks</b-dropdown-item>
-              </b-nav-item-dropdown>
-              <b-nav-item-dropdown v-if="$store.state.isLoggedIn" right no-caret>
-                <template #button-content>
-                  <i class="fas fa-user"></i>
-                </template>
-                <b-dropdown-item to="/user/profile">Profile</b-dropdown-item>
-                <b-dropdown-item to="/user/logout">Logout</b-dropdown-item>
-              </b-nav-item-dropdown>
-              <b-navbar-nav v-else>
-                <b-nav-item to="/user/login" active-class="active">Login</b-nav-item>
-                <b-nav-item to="/user/register" active-class="active">Register</b-nav-item>
-              </b-navbar-nav>
-            </b-navbar-nav>
-        </b-navbar>
+  <div>
+    <b-navbar sticky type="dark" variant="dark">
+      <b-navbar-brand to="/">Task Organizer</b-navbar-brand>
+        <!-- Right aligned nav items -->
+        <b-navbar-nav class="ml-auto">
+          <b-nav-item-dropdown v-if="$store.state.isLoggedIn" right no-caret>
+            <template #button-content>
+              <i class="fas fa-th"></i>
+            </template>
+            <b-dropdown-item to="/task">Tasks</b-dropdown-item>
+          </b-nav-item-dropdown>
+          <b-nav-item-dropdown v-if="$store.state.isLoggedIn" right no-caret>
+            <template #button-content>
+              <i class="fas fa-user"></i>
+            </template>
+            <b-dropdown-item to="/user/profile">Profile</b-dropdown-item>
+            <b-dropdown-item to="/user/logout">Logout</b-dropdown-item>
+          </b-nav-item-dropdown>
+          <b-navbar-nav v-else>
+            <b-nav-item to="/user/login" active-class="active">Login</b-nav-item>
+            <b-nav-item to="/user/register" active-class="active">Register</b-nav-item>
+          </b-navbar-nav>
+        </b-navbar-nav>
+    </b-navbar>
     <router-view></router-view>
-</div>
+  </div>
 </template>
 
 <script>

@@ -1,9 +1,13 @@
 <template>
   <b-container>
-  <b-row class="mt-3">
-    <h1>Log out</h1>
-    <p>{{ helpText }}</p>
-  </b-row>
+    <b-row class="bg-light border-bottom py-3" align-v="center">
+      <b-col>
+        <h3 class="my-0 text-center">Log out</h3>
+      </b-col>
+    </b-row>
+    <b-row class="mt-3">
+      <p>{{ helpText }}</p>
+    </b-row>
   </b-container>
 </template>
 

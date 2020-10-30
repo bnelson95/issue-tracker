@@ -1,8 +1,12 @@
 <template>
-  <b-container>
+  <b-container fluid>
+    <b-row class="bg-light border-bottom py-3" align-v="center">
+      <b-col>
+        <h3 class="my-0 text-center">Log in</h3>
+      </b-col>
+    </b-row>
     <b-row class="mt-3">
       <b-col>
-        <h1 class="text-center">Log in</h1>
         <p class="text-center">Need an account? <router-link v-bind:to="{ name: 'Register' }">Register</router-link></p>
         <b-card class="mt-3 rounded-0" style="max-width: 25rem; margin: 0 auto;">
           <b-form @submit.prevent="login">

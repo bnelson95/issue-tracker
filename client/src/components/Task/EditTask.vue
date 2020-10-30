@@ -1,13 +1,13 @@
 <template>
   <b-container fluid>
-    <b-row class="bg-light border-bottom" align-v="center">
+    <b-row class="bg-light py-3 border-bottom" align-v="center">
       <b-col class="fixed-col-120">
         <b-button @click="$router.push({ name: 'Tasks' })" variant="secondary" class="m-0">
             <i class="mr-1 fas fa-chevron-left"></i> Tasks
           </b-button>
       </b-col>
       <b-col>
-        <h3 class="editor my-3 py-1 text-center" contenteditable placeholder="Title" v-text="task.title" @blur="onTitleEdit"></h3>
+        <h3 class="editor my-0 text-center" contenteditable placeholder="Title" v-text="task.title" @blur="onTitleEdit"></h3>
       </b-col>
       <b-col class="fixed-col-120">
         <b-button-group class="float-right">
@@ -16,23 +16,23 @@
         </b-button-group>
       </b-col>
     </b-row>
-  <b-row class="mt-3">
-    <b-col sm="12" lg="8" class="overflow-auto">
-      <div>
-        <editor-control title="Description" :value="task.description" :input="value => task.description = value" />
-      </div>
-    </b-col>
-    <b-col sm="12" lg="4">
-      <status-control :task="task" :input="value => task.status = value" />
-      <priority-control :task="task" :input="value => task.priority = value" />
-      <tag-control title="Tags" :value="task.tags" @input="value => task.tags = value" />
-      <single-select-control title="Group" :value="task.group" :source="groups" @input="value => task.group = value">
-        <template v-slot:button-content>{{ groupText }}</template>
-        <template v-slot:item-content="slotProps">{{ slotProps.item.title }}</template>
-      </single-select-control>
-    </b-col>
-  </b-row>
-</b-container>
+    <b-row class="mt-3">
+      <b-col sm="12" lg="8" class="overflow-auto">
+        <div>
+          <editor-control title="Description" :value="task.description" :input="value => task.description = value" />
+        </div>
+      </b-col>
+      <b-col sm="12" lg="4">
+        <status-control :task="task" :input="value => task.status = value" />
+        <priority-control :task="task" :input="value => task.priority = value" />
+        <tag-control title="Tags" :value="task.tags" @input="value => task.tags = value" />
+        <single-select-control title="Group" :value="task.group" :source="groups" @input="value => task.group = value">
+          <template v-slot:button-content>{{ groupText }}</template>
+          <template v-slot:item-content="slotProps">{{ slotProps.item.title }}</template>
+        </single-select-control>
+      </b-col>
+    </b-row>
+  </b-container>
 </template>
 
 <script>
