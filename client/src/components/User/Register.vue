@@ -11,7 +11,7 @@
             <input-control title="Password" :value="password" :error="errors.password" @input="value => password = value" />
             <input-control title="Confirm Password" :value="password2" :error="errors.password2" @input="value => password2 = value" />
             <div class="text-center">
-              <b-button class="rounded-0" variant="primary" id="register-button" type="submit">Register</b-button>
+              <b-button block class="rounded-0" variant="primary" id="register-button" type="submit">Register</b-button>
             </div>
           </b-form>
         </b-card>

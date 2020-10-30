@@ -9,7 +9,7 @@
             <input-control title="Email" :value="email" :error="errors.email" @input="value => email = value" />
             <input-control type="password" title="Password" :value="password" :error="errors.password" @input="value => password = value" />
             <div class="text-center">
-              <b-button class="rounded-0" variant="primary" id="login-button" type="submit">Log in</b-button>
+              <b-button block class="rounded-0" variant="primary" id="login-button" type="submit">Log in</b-button>
             </div>
           </b-form>
         </b-card>
