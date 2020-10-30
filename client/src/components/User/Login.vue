@@ -4,20 +4,12 @@
       <b-col>
         <h1 class="text-center">Log in</h1>
         <p class="text-center">Need an account? <router-link v-bind:to="{ name: 'Register' }">Register</router-link></p>
-        <b-card class="mt-3" style="max-width: 25rem; margin: 0 auto;">
+        <b-card class="mt-3 rounded-0" style="max-width: 25rem; margin: 0 auto;">
           <b-form @submit.prevent="login">
-            <div>
-              <label class="mb-0" for="login-email">Email</label>
-              <b-input type="email" placeholder="hello@email.com" v-model="email" id="login-email" />
-              <p class="error">{{ errors.email }}</p>
-            </div>
-            <div class="mt-3">
-              <label class="mb-0" for="login-password">Password</label>
-              <b-input type="password" placeholder="Password1!" v-model="password" id="login-password" />
-              <p class="error">{{ errors.password }}</p>
-            </div>
-            <div class="mt-3 text-center">
-              <b-button variant="primary" id="login-button" type="submit">Log in</b-button>
+            <input-control title="Email" :value="email" :error="errors.email" @input="value => email = value" />
+            <input-control type="password" title="Password" :value="password" :error="errors.password" @input="value => password = value" />
+            <div class="text-center">
+              <b-button class="rounded-0" variant="primary" id="login-button" type="submit">Log in</b-button>
             </div>
           </b-form>
         </b-card>
@@ -27,9 +19,13 @@
 </template>
 
 <script>
+import InputControl from '@/components/controls/InputControl.vue'
 import UserService from '@/services/UserService'
 export default {
   name: 'Login',
+  components: {
+    InputControl
+  },
   data () {
     return {
       email: '',
@@ -58,10 +54,6 @@ export default {
 </script>
 
 <style scoped>
-.error {
-  color: crimson;
-  font-size: 0.8rem;
-}
 #login-button {
   align-self: center;
 }
