@@ -12,8 +12,8 @@
           <b-form @submit.prevent="register">
             <input-control title="Name" :value="name" :error="errors.name" @input="value => name = value" />
             <input-control title="Email" :value="email" :error="errors.email" @input="value => email = value" />
-            <input-control title="Password" :value="password" :error="errors.password" @input="value => password = value" />
-            <input-control title="Confirm Password" :value="password2" :error="errors.password2" @input="value => password2 = value" />
+            <input-control title="Password" type="password" :value="password" :error="errors.password" @input="value => password = value" />
+            <input-control title="Confirm Password" type="password" :value="password2" :error="errors.password2" @input="value => password2 = value" />
             <div class="text-center">
               <b-button block class="rounded-0" variant="primary" id="register-button" type="submit">Register</b-button>
             </div>
