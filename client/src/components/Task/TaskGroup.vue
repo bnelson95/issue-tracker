@@ -46,8 +46,8 @@ export default {
       priorities: { // TODO translate
         'urgent': { text: 'Urgent', icon: 'fa-exclamation text-danger', rank: 0 },
         'high': { text: 'High', icon: 'fa-angle-double-up text-warning', rank: 1 },
-        'normal': { text: 'Normal', icon: 'fa-angle-up text-secondary', rank: 2 },
-        'low': { text: 'Low', icon: '', rank: 3 }
+        'normal': { text: 'Normal', icon: '', rank: 2 },
+        'low': { text: 'Low', icon: 'fa-angle-down text-success', rank: 3 }
       }
     }
   },

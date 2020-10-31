@@ -20,7 +20,7 @@ var TaskSchema = new Schema({
 	priority: {
 		type: String,
 		enum: ['low', 'normal', 'high', 'urgent'],
-		default: 'low'
+		default: 'normal'
 	},
 	status: {
 		type: String,
