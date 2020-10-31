@@ -1,7 +1,7 @@
 <template>
   <div>
     <b-navbar sticky type="dark" variant="dark">
-      <b-navbar-brand to="/">Task Organizer</b-navbar-brand>
+      <b-navbar-brand :to="$store.state.isLoggedIn ? '/task' : '/'">Task Organizer</b-navbar-brand>
         <!-- Right aligned nav items -->
         <b-navbar-nav class="ml-auto">
           <b-nav-item-dropdown v-if="$store.state.isLoggedIn" right no-caret>

@@ -49,7 +49,7 @@ export default {
             this.errors = response.data.errors
           } else if (response.data.token) {
             this.$store.commit('setIsLoggedIn', true)
-            this.$router.push(this.$route.query.redirect || { name: 'Profile' })
+            this.$router.push(this.$route.query.redirect || { name: 'Tasks' })
           }
         })
     }
