@@ -194,7 +194,6 @@ export default {
       this.tasks = response.data.tasks
     },
     async deleteTask (task) {
-      console.log(task)
       await TaskService.deleteTask({ _id: task._id })
       await this.getTasks()
     },

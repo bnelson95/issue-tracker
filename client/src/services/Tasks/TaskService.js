@@ -10,7 +10,6 @@ export default {
   },
 
   updateTask (params) {
-    console.log(params)
     return Api().put('task/' + params._id, params)
   },
 
@@ -19,7 +18,6 @@ export default {
   },
 
   deleteTask (params) {
-    console.log(params)
     return Api().delete('task/' + params._id, params)
   }
 }
