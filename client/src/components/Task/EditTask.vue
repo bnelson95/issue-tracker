@@ -90,7 +90,7 @@ export default {
       this.$router.push({ name: 'Tasks' }) // TODO just go back?
     },
     async deleteTask () {
-      await TaskService.deleteNote({
+      await TaskService.deleteTask({
         _id: this.$route.params.id
       })
       this.$router.push({ name: 'Tasks' }) // TODO just go back?
