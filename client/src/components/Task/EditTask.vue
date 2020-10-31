@@ -1,26 +1,22 @@
 <template>
   <b-container fluid>
     <b-row class="bg-light py-3 border-bottom" align-v="center">
-      <b-col class="fixed-col-120">
+      <b-col>
         <b-button @click="$router.push({ name: 'Tasks' })" variant="secondary" class="m-0">
-            <i class="mr-1 fas fa-chevron-left"></i> Tasks
-          </b-button>
+          <i class="mr-1 fas fa-chevron-left"></i> Tasks
+        </b-button>
+        <b-button class="mx-3" variant="primary" @click="updateTask">Save</b-button>
       </b-col>
       <b-col>
-        <h3 class="editor my-0 text-center" contenteditable placeholder="Title" v-text="task.title" @blur="onTitleEdit"></h3>
-      </b-col>
-      <b-col class="fixed-col-120">
         <b-button-group class="float-right">
-          <b-button variant="primary" @click="updateTask">Save</b-button>
           <b-button variant="danger" @click="deleteTask">Delete</b-button>
         </b-button-group>
       </b-col>
     </b-row>
     <b-row class="mt-3">
       <b-col sm="12" lg="8" class="overflow-auto">
-        <div>
-          <editor-control title="Description" :value="task.description" :input="value => task.description = value" />
-        </div>
+        <h3 class="editor mb-3 p-2" contenteditable placeholder="Title" v-text="task.title" @blur="onTitleEdit"></h3>
+        <editor-control title="Description" :value="task.description" :input="value => task.description = value" />
       </b-col>
       <b-col sm="12" lg="4">
         <status-control :task="task" :input="value => task.status = value" />

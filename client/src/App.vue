@@ -60,8 +60,12 @@ p {
 [contenteditable]:hover {
   cursor: text;
 }
+h3[contenteditable] {
+    border: 1px solid transparent;
+}
 .editor[contenteditable]:hover, .editor[contenteditable]:focus {
   background-color: white;
+  border: 1px solid #dee2e6;
 }
 .card, .card-header, button {
   border-radius: 0 !important;
