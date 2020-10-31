@@ -16,7 +16,7 @@
         v-b-toggle="'accordian-' + task._id">
         <b-row no-gutters class="align-items-center">
           <b-col class="ml-3 my-2 text-nowrap overflow-hidden">
-            {{ task.title }}
+            {{ task.title || 'Untitled' }}
           </b-col>
           <b-col class="priority-col text-center">
             <i :class="'fas ' + getPriorityIcon(task)"></i>

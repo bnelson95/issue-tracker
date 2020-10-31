@@ -199,7 +199,7 @@ export default {
     },
     async newTask () {
       const res = await TaskService.addTask({
-        title: 'New Task',
+        title: '',
         description: '',
         group: this.selectedGroup._id
       })
