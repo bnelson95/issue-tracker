@@ -2,13 +2,23 @@ import express from 'express';
 import bcryptjs from 'bcryptjs';
 import jsonwebtoken from 'jsonwebtoken';
 import passport from 'passport';
+import nodemailer from 'nodemailer';
+import crypto from 'crypto';
+import moment from 'moment';
 
-import { SECRET } from "../../config.js";
+import {
+  SECRET,
+  MAILER_SERVICE,
+  MAILER_AUTH_USER,
+  MAILER_AUTH_PASS
+} from "../../config.js";
 import validateRegisterInput from "../../validation/register.js";
 import validateLoginInput from "../../validation/login.js";
 import validateUpdatePasswordInput from "../../validation/updatePassword.js";
 import validateUpdateProfileInput from "../../validation/updateProfile.js";
+import validateResetPasswordInput from "../../validation/resetPassword.js";
 import User from "../../models/user.js";
+import Token from "../../models/token.js";
 
 const router = express.Router();
 
@@ -160,5 +170,122 @@ router.post('/password', async (req, res) => {
     }
   })(req, res)
 })
+
+router.post('/login/forgot', async (req, res) => {
+  const user = await User.findOne({ email: req.body.email })
+  if (!user) {
+    return res.status(200).json({ errors: { email: "Email does not exist" }})
+  }
+  try {
+    // Create a verification token
+    var token = new Token({
+      _userId: user._id,
+      token: crypto.randomBytes(16).toString("hex")
+    });
+
+    user.passwordResetToken = token.token;
+    user.passwordResetExpires = moment().add(12, "hours");
+
+    user.save(function(err) {
+      if (err) {
+        return res.status(500).send({ message: err.message });
+      }
+      // Save the token
+      token.save(function(err) {
+        if (err) {
+          return res.status(500).send(err.message);
+        }
+        // Send the mail
+        var transporter = nodemailer.createTransport({
+          service: MAILER_SERVICE,
+          auth: {
+            user: MAILER_AUTH_USER,
+            pass: MAILER_AUTH_PASS
+          }
+        });
+        var mailOptions = {
+          from: MAILER_AUTH_USER,
+          to: user.email,
+          subject: 'Password Reset',
+          html: `<p>You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n 
+            Please click on the following link, or paste this into your browser to complete the process:\n\n
+            <a href="${req.headers.origin}/user/login/reset/${token.token}">${req.headers.origin}/user/login/reset/${token.token}</a> \n\n 
+            If you did not request this, please ignore this email and your password will remain unchanged.\n </p>`
+        };
+        transporter.sendMail(mailOptions, (error, info) => {
+          if (error) {
+            console.log(error);
+            res.status(500).json({ message: error})
+          } else {
+            console.log('Email sent: ' + info.response);
+            res.status(200).json({ message: "Reset password email sent!" })
+          }
+        });
+      })
+    })
+  } catch (error) {
+    res.status(500).json({ message: error.message})
+  }
+})
+
+router.post("/login/reset/:token", (req, res) => {
+  // Validate password Input
+  const { errors } = validateResetPasswordInput(req.body);
+  if (errors && Object.keys(errors).length !== 0)
+    return res.json({ errors });
+  // Find a matching token
+  Token.findOne({ token: req.params.token }, function(err, token) {
+    if (err)
+      return res.send({ message: err.message });
+    if (!token)
+      return res.send({ message: "This token is not valid. Your token my have expired." });
+    // If we found a token, find a matching user
+    User.findById(token._userId, function(err, user) {
+      if (err)
+        return res.send({ message: err.message });
+      if (!user)
+        return res.send({ message: `We were unable to find a user for this token.` });
+      if (user.passwordResetToken !== token.token)
+        return res.send({ message: "User token and your token didn't match. You may have a more recent token in your mail list." });
+      // Verify that the user token expires date has not been passed
+      if (moment().utcOffset(0) > user.passwordResetExpires)
+        return res.send({ message: "Token has expired." });
+      // Update user
+      bcryptjs.genSalt(10, (err, salt) => {
+        bcryptjs.hash(req.body.newPassword, salt, (err, hash) => {
+          if (err) throw err;
+          user.password = hash;
+          user.passwordResetToken = "";
+          user.passwordResetExpires = moment().utcOffset(0);
+          // Save updated user to the database
+          user.save(function(err) {
+            if (err) return res.send({ message: err.message });
+            // Send mail confirming password change to the user
+            var transporter = nodemailer.createTransport({
+              service: MAILER_SERVICE,
+              auth: {
+                user: MAILER_AUTH_USER,
+                pass: MAILER_AUTH_PASS
+              }
+            });
+            var mailOptions = {
+              from: MAILER_AUTH_USER,
+              to: user.email,
+              subject: 'Password Reset Confirmation',
+              html: `<p>This is a confirmation that the password for your account ${user.email} has just been changed. </p>`
+            };
+            transporter.sendMail(mailOptions, (error, info) => {
+              if (error)
+                return res.send({ message: error})
+              else
+                return res.send({ message: "Reset password email sent!" })
+            });
+            return res.send({ message: "Password has been reset. Please log in." });
+          })
+        })
+      })
+    });
+  });
+});
 
 export default router;

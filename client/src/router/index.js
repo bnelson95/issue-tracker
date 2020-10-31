@@ -7,6 +7,8 @@ import Register from '@/components/User/Register'
 import Login from '@/components/User/Login'
 import Logout from '@/components/User/Logout'
 import Profile from '@/components/User/Profile'
+import LoginForgot from '@/components/User/LoginForgot'
+import LoginReset from '@/components/User/LoginReset'
 import UserService from '@/services/UserService'
 import Tasks from '@/components/Task/Tasks'
 import EditTask from '@/components/Task/EditTask'
@@ -48,6 +50,16 @@ const router = new Router({
       name: 'Profile',
       component: Profile,
       meta: { requiresAuth: true }
+    },
+    {
+      path: '/user/login/forgot',
+      name: 'LoginForgot',
+      component: LoginForgot
+    },
+    {
+      path: '/user/login/reset/:id',
+      name: 'LoginReset',
+      component: LoginReset
     },
     {
       path: '/task',

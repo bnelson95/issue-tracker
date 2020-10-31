@@ -17,7 +17,15 @@ const UserSchema = new mongoose.Schema({
   date: {
     type: Date,
     default: Date.now
-  }
+  },
+  passwordResetToken: {
+    type: String, 
+    default: ""
+  },
+  passwordResetExpires: {
+    type: Date,
+    default: Date("2020/10/31")
+  },
 });
 
 export default mongoose.model('User', UserSchema);

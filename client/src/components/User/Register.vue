@@ -6,9 +6,9 @@
       </b-col>
     </b-row>
     <b-row class="mt-3">
-      <b-col>
+      <b-col style="max-width: 30rem; margin: 0 auto;">
         <p class="text-center">Already have an account? <router-link v-bind:to="{ name: 'Login' }">Log in</router-link></p>
-        <b-card class="rounded-0 mt-3" style="max-width: 25rem; margin: 0 auto;">
+        <b-card class="mt-3">
           <b-form @submit.prevent="register">
             <input-control title="Name" :value="name" :error="errors.name" @input="value => name = value" />
             <input-control title="Email" :value="email" :error="errors.email" @input="value => email = value" />

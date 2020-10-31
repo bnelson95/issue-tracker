@@ -18,5 +18,11 @@ export default {
   },
   updatePassword (params) {
     return Api().post('/user/password', params)
+  },
+  forgotPassword (params) {
+    return Api().post('/user/login/forgot', params)
+  },
+  resetPassword (params) {
+    return Api().post('/user/login/reset/' + params.id, params)
   }
 }

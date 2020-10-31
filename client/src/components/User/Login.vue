@@ -6,17 +6,18 @@
       </b-col>
     </b-row>
     <b-row class="mt-3">
-      <b-col>
+      <b-col style="max-width: 30rem; margin: 0 auto;">
         <p class="text-center">Need an account? <router-link v-bind:to="{ name: 'Register' }">Register</router-link></p>
-        <b-card class="mt-3 rounded-0" style="max-width: 25rem; margin: 0 auto;">
+        <b-card class="my-3">
           <b-form @submit.prevent="login">
             <input-control title="Email" :value="email" :error="errors.email" @input="value => email = value" />
             <input-control type="password" title="Password" :value="password" :error="errors.password" @input="value => password = value" />
             <div class="text-center">
-              <b-button block class="rounded-0" variant="primary" id="login-button" type="submit">Log in</b-button>
+              <b-button block variant="primary" id="login-button" type="submit">Log in</b-button>
             </div>
           </b-form>
         </b-card>
+        <p class="text-center"><router-link v-bind:to="{ name: 'LoginForgot' }">Forgot your password?</router-link></p>
       </b-col>
     </b-row>
   </b-container>
