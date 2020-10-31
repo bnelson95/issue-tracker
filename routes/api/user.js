@@ -6,6 +6,8 @@ import passport from 'passport';
 import { SECRET } from "../../config.js";
 import validateRegisterInput from "../../validation/register.js";
 import validateLoginInput from "../../validation/login.js";
+import validateUpdatePasswordInput from "../../validation/updatePassword.js";
+import validateUpdateProfileInput from "../../validation/updateProfile.js";
 import User from "../../models/user.js";
 
 const router = express.Router();
@@ -111,9 +113,52 @@ router.get('/profile', async (req, res) => {
     if (err) { console.log(err); }
     if (info) { console.log(info); }
     if (!user) { res.status(403); }
-
+    
     res.send({ profile: user });
   })(req, res);
 });
+
+router.post('/profile', async (req, res) => {
+  passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+    if (!user) { res.status(403); }
+    try {
+      const { errors } = validateUpdateProfileInput(req.body);
+      if (errors && Object.keys(errors).length !== 0) {
+        return res.json({ errors });
+      }
+      const response = await User.findByIdAndUpdate(user.id, req.body)
+      if (!response) throw Error('Something went wrong ')
+      const updated = { ...response._doc, ...req.body }
+      res.status(200).json({ profile: updated })
+    } catch (error) {
+      res.status(500).json({ message: error.message })
+    }
+  })(req, res)
+})
+
+router.post('/password', async (req, res) => {
+  passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+    if (!user) { res.status(403); }
+    try {
+      const { errors } = validateUpdatePasswordInput(req.body);
+      if (errors && Object.keys(errors).length !== 0) {
+        return res.json({ errors });
+      }
+      const currentUser = await User.findById(user.id)
+      if (!currentUser) throw Error('Something went wrong ')
+      bcryptjs.genSalt(10, (err, salt) => {
+        bcryptjs.hash(req.body.newPassword, salt, (err, hash) => {
+          if (err) throw err;
+          currentUser.password = hash;
+          currentUser.save()
+            .then(updatedUser => res.status(200).json({ user: updatedUser }))
+            .catch(err => console.log(err));
+        });
+      });
+    } catch (error) {
+      res.status(500).json({ message: error.message })
+    }
+  })(req, res)
+})
 
 export default router;

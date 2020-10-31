@@ -8,9 +8,15 @@ export default {
     return Api().post('/user/login', params)
   },
   logoutUser () {
-    return Api().get('/user/logout', { withCredentials: true })
+    return Api().get('/user/logout')
   },
   getProfile () {
-    return Api().get('/user/profile', { withCredentials: true })
+    return Api().get('/user/profile')
+  },
+  updateProfile (params) {
+    return Api().post('/user/profile', params)
+  },
+  updatePassword (params) {
+    return Api().post('/user/password', params)
   }
 }

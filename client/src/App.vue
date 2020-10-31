@@ -14,7 +14,7 @@
             <template #button-content>
               <i class="fas fa-user"></i>
             </template>
-            <b-dropdown-item to="/user/profile">Profile</b-dropdown-item>
+            <b-dropdown-item to="/user/profile">Account</b-dropdown-item>
             <b-dropdown-item to="/user/logout">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-navbar-nav v-else>
