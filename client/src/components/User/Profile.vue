@@ -27,7 +27,7 @@
       <b-col sm="0" md="1" lg="2" xl="2"></b-col>
       <b-col sm="6" md="5" lg="4" xl="4">
         <h5>Password</h5>
-        <p>Changing your password will require you to log in again.</p>
+        <p>Changing your password may also require you to log in again.</p>
         <br>
       </b-col>
       <b-col sm="6" md="5" lg="4" xl="4">
