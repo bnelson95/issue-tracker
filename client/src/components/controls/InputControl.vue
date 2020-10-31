@@ -1,5 +1,5 @@
 <template>
-  <control-wrapper :title="title" :error="error">
+  <control-wrapper :title="title" :error="error" :icon="icon">
     <template v-slot:control-content>
       <b-form-input
         :type="type"
@@ -38,7 +38,17 @@ export default {
       type: String,
       default: "text"
     }
-  }
+  },
+  computed: {
+    icon: function () {
+      switch (this.type) {
+        case "text": return "fa-font"
+        case "email": return "fa-at"
+        case "password": return "fa-lock"
+        default: return ""
+      }
+    }
+  },
 }
 </script>
 

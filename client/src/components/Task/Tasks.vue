@@ -39,7 +39,9 @@
         <h3 class="text-center m-0">{{ selectedGroup.title }}</h3>
       </b-col>
       <b-col class="fixed-col-175">
-        <b-button v-b-toggle.sidebar-1 class="float-right"><b>Groups</b></b-button>
+        <b-button v-b-toggle.sidebar-1 class="float-right">
+          <i class="mr-1 fas fa-layer-group"></i> <b>Groups</b>
+        </b-button>
       </b-col>
     </b-row>
     <b-form-row>
