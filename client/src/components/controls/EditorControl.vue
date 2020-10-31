@@ -97,7 +97,7 @@
         </div>
       </editor-menu-bar>
       <div class="mx-2 my-1">
-        <editor-content class="editor__content" :editor="editor" @blur="input(value)" />
+        <editor-content class="editor__content" :editor="editor" />
       </div>
     </template>
   </control-wrapper>
@@ -164,7 +164,12 @@ export default {
         this.input(newContent)
       }
     })
-    this.editor.setContent(this.value)
+    var unwatch = this.$watch('value', () => {
+        this.editor.setContent(this.value)
+        if (unwatch) unwatch()
+      },
+      { immediate: true }
+    )
   },
   props: {
     title: {
@@ -177,13 +182,8 @@ export default {
       type: Function
     }
   },
-  watch: {
-    value: {
-      immediate: true,
-      handler (newValue) {
-        if (this.editor) this.editor.setContent(newValue)
-      }
-    }
+  beforeDestroy() {
+    this.editor.destroy()
   }
 }
 </script>
