@@ -31,7 +31,7 @@
     </b-sidebar>
     <b-row class="bg-light border-bottom py-3" align-v="center">
       <b-col class="fixed-col-175">
-        <b-button @click="newTask()" variant="primary">
+        <b-button @click="newTask()" variant="outline-primary">
           <i class="mr-1 fas fa-plus"></i> <b>New Task</b>
         </b-button>
       </b-col>
@@ -39,12 +39,12 @@
         <h3 class="text-center m-0">{{ selectedGroup.title }}</h3>
       </b-col>
       <b-col class="fixed-col-175">
-        <b-button v-b-toggle.sidebar-1 class="float-right">
+        <b-button v-b-toggle.sidebar-1 class="float-right" variant="outline-secondary">
           <i class="mr-1 fas fa-layer-group"></i> <b>Groups</b>
         </b-button>
       </b-col>
     </b-row>
-    <b-form-row>
+    <b-row>
       <b-col sm="12" md="4" lg="4" xl="4">
         <task-group title="Not Started"
           class="mt-3"
@@ -52,13 +52,13 @@
           :tasks="notStartedTasks"
           cardBorderVariant="primary">
           <template v-slot:action-buttons="slotProps">
-            <b-button variant="danger" @click="deleteTask(slotProps.task)">
+            <b-button variant="outline-danger" @click="deleteTask(slotProps.task)">
               <i class="mr-1 fas fa-trash"></i> Delete
             </b-button>
-            <b-button variant="light" @click="editTask(slotProps.task)" class="border-left">
+            <b-button variant="outline-secondary" @click="editTask(slotProps.task)">
               <i class="mr-1 fas fa-edit"></i> Edit
             </b-button>
-            <b-button variant="info" @click="startTask(slotProps.task)" class="border-left ">
+            <b-button variant="outline-info" @click="startTask(slotProps.task)">
               <i class="mr-1 fas fa-hourglass-half"></i> Start
             </b-button>
           </template>
@@ -71,13 +71,13 @@
           :tasks="inProgressTasks"
           cardBorderVariant="info">
           <template v-slot:action-buttons="slotProps">
-            <b-button variant="primary" @click="revertTask(slotProps.task)">
+            <b-button variant="outline-primary" @click="revertTask(slotProps.task)">
               <i class="mr-1 fas fa-hourglass-start"></i> Revert
             </b-button>
-            <b-button variant="light" @click="editTask(slotProps.task)" class="border-left">
+            <b-button variant="outline-secondary" @click="editTask(slotProps.task)">
               <i class="mr-1 fas fa-edit"></i> Edit
             </b-button>
-            <b-button variant="success" @click="completeTask(slotProps.task)" class="border-left">
+            <b-button variant="outline-success" @click="completeTask(slotProps.task)">
               <i class="mr-1 fas fa-hourglass-end"></i> Done
             </b-button>
           </template>
@@ -90,18 +90,18 @@
           :tasks="completedTasks"
           cardBorderVariant="success">
           <template v-slot:action-buttons="slotProps">
-            <b-button variant="info" @click="startTask(slotProps.task)">
+            <b-button variant="outline-info" @click="startTask(slotProps.task)">
               <i class="mr-1 fas fa-hourglass-half"></i> Revert
             </b-button>
-            <b-button variant="light" @click="editTask(slotProps.task)" class="border-left border-right">
+            <b-button variant="outline-secondary" @click="editTask(slotProps.task)">
               <i class="mr-1 fas fa-edit"></i> Edit
             </b-button>
-            <b-button variant="light" disabled>
+            <b-button variant="outline-secondary" disabled>
             </b-button>
           </template>
         </task-group>
       </b-col>
-    </b-form-row>
+    </b-row>
   </b-container>
 </template>
 

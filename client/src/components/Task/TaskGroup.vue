@@ -1,6 +1,6 @@
 <template>
   <b-card no-body
-    class="border-bottom-0"
+    class="border-0"
     :header-bg-variant="cardBorderVariant"
     header-text-variant="white">
     <template v-slot:header>
@@ -15,7 +15,7 @@
         v-bind:key="task._id"
         v-b-toggle="'accordian-' + task._id">
         <b-row no-gutters class="align-items-center">
-          <b-col class="ml-3 my-2 text-nowrap overflow-hidden">
+          <b-col class="ml-2 my-2 text-nowrap overflow-hidden">
             {{ task.title || 'Untitled' }}
           </b-col>
           <b-col class="priority-col text-center">
@@ -23,13 +23,15 @@
           </b-col>
         </b-row>
           <b-collapse :id="'accordian-' + task._id" accordion="my-accordion">
-            <div v-if="task.tags" class="mx-3 mb-2">
+            <div v-if="task.tags" class="mx-2 mt-0">
+              <div class="mb-2">
               <b-badge v-for="tag in task.tags" v-bind:key="tag" class="mr-1">
                 {{ tag }}
               </b-badge>
+              </div>
             </div>
-            <div v-if="task.description" class="mx-3 mb-2"><span v-html="task.description"></span></div>
-            <b-button-group class="d-flex border-top">
+            <div v-if="task.description" class="mx-2 mb-2"><span v-html="task.description"></span></div>
+            <b-button-group class="d-flex mb-2">
               <slot name="action-buttons" :task="task"></slot>
             </b-button-group>
           </b-collapse>

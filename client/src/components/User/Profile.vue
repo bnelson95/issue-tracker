@@ -15,10 +15,8 @@
       <b-col sm="6" md="5" lg="4" xl="4">
         <input-control title="Email" type="email" :value="newEmail" :error="profileErrors.email" @input="value => newEmail = value" />
         <input-control title="Name" :value="newName" :error="profileErrors.name" @input="value => newName = value" />
-        <b-button-group class="d-flex">
-          <b-button class="mr-3" variant="primary" :disabled="!canSaveProfile" @click="updateProfile">Save Profile</b-button>
-          <b-button variant="secondary" :disabled="!canCancelSaveProfile" @click="cancelProfileChange">Cancel</b-button>
-        </b-button-group>
+        <b-button class="mr-3" variant="primary" :disabled="!canSaveProfile" @click="updateProfile">Save Profile</b-button>
+        <b-button class="float-right" variant="secondary" :disabled="!canCancelSaveProfile" @click="cancelProfileChange">Cancel</b-button>
       </b-col>
       <b-col sm="0" md="1" lg="2" xl="2"></b-col>
     </b-row>
@@ -34,10 +32,8 @@
         <input-control title="Current Password" type="password" :value="currentPassword" :error="passwordErrors.currentPassword" @input="value => currentPassword = value" />
         <input-control title="New Password" type="password" :value="newPassword" :error="passwordErrors.newPassword" @input="value => newPassword = value" />
         <input-control title="Confirm New Password" type="password" :value="newPassword2" :error="passwordErrors.newPassword2" @input="value => newPassword2 = value" />
-        <b-button-group class="d-flex">
-          <b-button class="mr-3" variant="primary" :disabled="!canChangePassword" @click="updatePassword">Update Password</b-button>
-          <b-button variant="secondary" :disabled="!canCancelChangePassword" @click="cancelPasswordChange">Cancel</b-button>
-        </b-button-group>
+        <b-button class="mr-3" variant="primary" :disabled="!canChangePassword" @click="updatePassword">Update Password</b-button>
+        <b-button class="float-right" variant="secondary" :disabled="!canCancelChangePassword" @click="cancelPasswordChange">Cancel</b-button>
       </b-col>
       <b-col sm="0" md="1" lg="2" xl="2"></b-col>
     </b-row>
