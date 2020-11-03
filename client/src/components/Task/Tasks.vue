@@ -183,22 +183,28 @@ export default {
     },
     async deleteTaskGroup () {
       await TaskGroupService.deleteTaskGroup({ _id: this.selectedGroup._id })
-      this.selectedGroup = ''
       await this.getTaskGroups()
+      this.selectGroup('')
     },
     async newTaskGroup () {
-      await TaskGroupService.addTaskGroup({
+      const response = await TaskGroupService.addTaskGroup({
         title: 'New Group'
       })
       await this.getTaskGroups()
+      if (response.data.group) {
+        this.selectGroup(response.data.group)
+      }
     },
     async updateTaskGroup () {
-      await TaskGroupService.updateTaskGroup({
+      const response = await TaskGroupService.updateTaskGroup({
         ...this.selectedGroup,
         title: this.newTaskGroupTitle,
         color: this.newTaskGroupColor
       })
       await this.getTaskGroups()
+      if (response.data.group) {
+        this.selectGroup(response.data.group)
+      }
     },
     async getTasks () {
       const response = await TaskService.fetchTasks()

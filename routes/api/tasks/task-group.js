@@ -79,7 +79,7 @@ router.put('/:id', async (req, res) => {
 			group.color = req.body.color;
 			group.save()
 			.then(newGroup => {
-				res.send({ task: newGroup });
+				res.send({ group: newGroup });
 			})
 			.catch(err => {
 				res.status(400).send(err);
