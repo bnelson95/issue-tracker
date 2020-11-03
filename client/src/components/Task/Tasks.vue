@@ -54,10 +54,10 @@
         <p v-if="tasksForGroup.length === 0" class="my-3">Create a new task to get started!</p>
       </b-col>
     </b-row>
-    <b-row v-if="tasksForGroup.length > 0">
+    <b-row v-if="tasksForGroup.length > 0" class="mt-3">
       <b-col sm="12" md="4" lg="4" xl="4">
         <task-group title="Not Started"
-          class="mt-3"
+          class="mb-3"
           icon="fa-hourglass-start"
           :tasks="notStartedTasks"
           cardBorderVariant="primary">
@@ -76,7 +76,7 @@
       </b-col>
       <b-col sm="12" md="4" lg="4" xl="4">
         <task-group title="In Progress"
-          class="mt-3"
+          class="mb-3"
           icon="fa-hourglass-half"
           :tasks="inProgressTasks"
           cardBorderVariant="info">
@@ -95,7 +95,7 @@
       </b-col>
       <b-col sm="12" md="4" lg="4" xl="4">
         <task-group title="Completed"
-          class="mt-3"
+          class="mb-3"
           icon="fa-hourglass-end"
           :tasks="completedTasks"
           cardBorderVariant="success">
