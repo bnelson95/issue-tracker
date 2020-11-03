@@ -1,6 +1,6 @@
 <template>
-  <div class="border mb-3">
-    <div class="bg-light border-bottom py-1">
+  <div class="border mb-3 rounded">
+    <div class="bg-light rounded-top border-bottom py-1">
       <span class="title mx-2">{{ title }}</span>
       <span class="mx-2 float-right"><i v-if="icon" :class="'fas ' + icon"></i></span>
     </div>

@@ -1,7 +1,7 @@
 <template>
   <control-wrapper :title="title">
     <template v-slot:control-content>
-      <b-form-tags class="rounded-0 p-0" size="lg" :value="value" @input="$emit('input', $event)" tag-variant="light">
+      <b-form-tags class="p-0" size="lg" :value="value" @input="$emit('input', $event)" tag-variant="light">
         <template v-slot="{ tags, inputAttrs, inputHandlers, tagVariant, addTag, removeTag }">
           <b-input-group>
             <b-form-input
@@ -17,7 +17,7 @@
               <option>TODO</option>
             </datalist>
             <b-input-group-append>
-              <b-button variant="light" class="border-left" @click="addTag()">Add</b-button>
+              <b-button variant="light" class="border-left rounded-0" @click="addTag()">Add</b-button>
             </b-input-group-append>
           </b-input-group>
           <div class="p-1 border-top" v-if="tags.length > 0">
@@ -27,7 +27,7 @@
               :key="tag"
               :title="tag"
               :variant="tagVariant"
-              class="m-1 px-2 py-1 border rounded-0">
+              class="m-1 px-2 py-1 border">
               {{ tag }}
             </b-form-tag>
           </div>
@@ -66,7 +66,6 @@ input, input:focus {
 }
 input {
   border: 0;
-  border-radius: 0;
 }
 input:focus {
   box-shadow: none;

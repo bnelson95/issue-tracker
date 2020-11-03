@@ -73,7 +73,7 @@ h3[contenteditable] {
   border: 1px solid #dee2e6;
 }
 button, .btn {
-  border-width: 2px;
+
 }
 button:hover {
   outline: none;

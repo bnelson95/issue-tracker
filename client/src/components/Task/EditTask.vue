@@ -15,7 +15,7 @@
     </b-row>
     <b-row class="mt-3">
       <b-col sm="12" lg="8" class="overflow-auto">
-        <h3 class="editor mb-3 p-2" contenteditable placeholder="Title" v-text="task.title" @blur="onTitleEdit"></h3>
+        <h3 class="editor mb-3 p-2 rounded" contenteditable placeholder="Title" v-text="task.title" @blur="onTitleEdit"></h3>
         <editor-control title="Description" :value="task.description" :input="value => task.description = value" />
       </b-col>
       <b-col sm="12" lg="4">

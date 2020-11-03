@@ -2,8 +2,8 @@
   <control-wrapper :title="title">
     <template v-slot:control-content>
       <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-        <div class="menubar border-bottom">
-          <b-button-group class="border-right">
+        <div class="menubar m-1">
+          <b-button-group class="m-1">
             <b-button
               variant="light"
               :class="{ 'active': isActive.bold() }"
@@ -30,7 +30,7 @@
             </b-button>
           </b-button-group>
 
-          <b-button-group>
+          <b-button-group class="m-1">
           <b-button
               variant="light"
             :class="{ 'active': isActive.heading({ level: 1 }) }"
@@ -53,7 +53,7 @@
           </b-button>
           </b-button-group>
 
-          <b-button-group>
+          <b-button-group class="m-1">
           <b-button
               variant="light"
             :class="{ 'active': isActive.bullet_list() }"
@@ -68,6 +68,7 @@
           </b-button>
           </b-button-group>
 
+          <b-button-group class="m-1">
           <b-button
               variant="light"
             :class="{ 'active': isActive.blockquote() }"
@@ -81,8 +82,9 @@
           >
             <i class="fas fa-window-minimize"></i>
           </b-button>
+          </b-button-group>
 
-          <b-button-group>
+          <b-button-group class="m-1">
           <b-button
               variant="light"
             @click="commands.undo">
@@ -96,7 +98,7 @@
           </b-button-group>
         </div>
       </editor-menu-bar>
-      <div class="mx-2 my-1">
+      <div class="mx-2 mb-1">
         <editor-content class="editor__content" :editor="editor" />
       </div>
     </template>
@@ -188,6 +190,8 @@ export default {
 }
 </script>
 
-<style>
-
+<style scoped>
+button, .btn {
+  border: 0px !important;
+}
 </style>
