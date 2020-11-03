@@ -16,6 +16,12 @@
         </b-modal>
       </b-button-group>
       <b-list-group>
+        <b-list-group-item button
+          :class="{ 'active':!selectedGroup, 'px-3 py-2':true }"
+          @click="selectGroup('')"
+          variant="light">
+          All Tasks
+        </b-list-group-item>
         <b-list-group-item button v-for="group in groups" v-bind:key="group._id"
           :class="{ 'active': selectedGroup._id === group._id, 'px-3 py-2':true }"
           @click="selectGroup(group)"
