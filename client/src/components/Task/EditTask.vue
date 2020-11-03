@@ -19,13 +19,13 @@
         <editor-control title="Description" :value="task.description" :input="value => task.description = value" />
       </b-col>
       <b-col sm="12" lg="4">
+        <single-select-control title="Group" :value="task.group" :source="groups" @input="value => task.group = value" allowEmpty>
+          <template v-slot:button-content>{{ groupText || "No group" }}</template>
+          <template v-slot:item-content="slotProps">{{ slotProps.item.title }}</template>
+        </single-select-control>
         <status-control :task="task" :input="value => task.status = value" />
         <priority-control :task="task" :input="value => task.priority = value" />
         <tag-control title="Tags" :value="task.tags" @input="value => task.tags = value" />
-        <single-select-control title="Group" :value="task.group" :source="groups" @input="value => task.group = value">
-          <template v-slot:button-content>{{ groupText }}</template>
-          <template v-slot:item-content="slotProps">{{ slotProps.item.title }}</template>
-        </single-select-control>
       </b-col>
     </b-row>
   </b-container>
@@ -59,8 +59,8 @@ export default {
   },
   computed: {
     groupText: function () {
-      return this.task && this.task.group && this.groups
-        ? this.groups[this.task.group].title
+      return this.task && this.task.group && this.groups && this.groups[this.task.group]
+        ? this.groups[this.task.group].title 
         : ''
     }
   },

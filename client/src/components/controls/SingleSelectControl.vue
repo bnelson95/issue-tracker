@@ -5,6 +5,9 @@
         <template v-slot:button-content>
           <slot name="button-content"></slot>
         </template>
+        <b-dropdown-item v-if="allowEmpty" @click="$emit('input', '')">
+          <p>-</p>
+        </b-dropdown-item>
         <b-dropdown-item v-for="(item, key) in source" :key="key" @click="$emit('input', key)">
           <slot name="item-content" :item="item"></slot>
         </b-dropdown-item>
@@ -34,6 +37,9 @@ export default {
     },
     source: {
       type: Object
+    },
+    allowEmpty: {
+      type: Boolean
     }
   }
 }
