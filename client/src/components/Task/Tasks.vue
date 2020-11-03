@@ -183,6 +183,7 @@ export default {
     },
     async deleteTaskGroup () {
       await TaskGroupService.deleteTaskGroup({ _id: this.selectedGroup._id })
+      this.selectedGroup = ''
       await this.getTaskGroups()
     },
     async newTaskGroup () {
