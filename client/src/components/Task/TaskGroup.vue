@@ -1,37 +1,35 @@
 <template>
   <b-card no-body
-    class="border-0"
-    :header-bg-variant="cardBorderVariant"
-    header-text-variant="white">
+    :header-text-variant="cardBorderVariant">
     <template v-slot:header>
       <h5 class="mb-0">
         <i :class="'mr-2 fas ' + icon"></i>
         <b>{{ title }}</b>
-        <b-badge variant="light" class="m-auto float-right">{{ tasks.length }}</b-badge>
+        <b-badge :variant="cardBorderVariant" class="m-auto float-right">{{ tasks.length }}</b-badge>
       </h5>
     </template>
-    <b-list-group flush class="rounded-0">
-      <b-list-group-item :class="{'task':true, 'p-0':true, 'border-bottom':i==orderedTasks.length-1}" v-for="(task, i) in orderedTasks"
+    <b-list-group flush class="rounded">
+      <b-list-group-item :class="{'task':true, 'p-0':true }" v-for="(task) in orderedTasks"
         v-bind:key="task._id"
         v-b-toggle="'accordian-' + task._id">
         <b-row no-gutters class="align-items-center">
-          <b-col class="ml-2 my-2 text-nowrap overflow-hidden">
+          <b-col class="ml-3 my-2 text-nowrap overflow-hidden">
             {{ task.title || 'Untitled' }}
-          </b-col>
+          </b-col> 
           <b-col class="priority-col text-center">
             <i :class="'fas ' + getPriorityIcon(task)"></i>
           </b-col>
         </b-row>
           <b-collapse :id="'accordian-' + task._id" accordion="my-accordion">
-            <div v-if="task.tags" class="mx-2 mt-0">
+            <div v-if="task.tags" class="mx-3 mt-0">
               <div class="mb-2">
               <b-badge v-for="tag in task.tags" v-bind:key="tag" class="mr-1">
                 {{ tag }}
               </b-badge>
               </div>
             </div>
-            <div v-if="task.description" class="mx-2 mb-2"><span v-html="task.description"></span></div>
-            <b-button-group class="d-flex mb-2">
+            <div v-if="task.description" class="mx-3 mb-2"><span v-html="task.description"></span></div>
+            <b-button-group class="d-flex m-2">
               <slot name="action-buttons" :task="task"></slot>
             </b-button-group>
           </b-collapse>

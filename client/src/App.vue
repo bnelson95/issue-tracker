@@ -99,7 +99,8 @@ button:focus {
   color: goldenrod !important;
 }
 .bar {
-  border-bottom: 2px solid;
+  border: 0;
+  border-bottom: 1px solid;
   border-image-source: linear-gradient(90deg, goldenrod, skyblue);
   border-image-slice: 1;
   box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
@@ -107,16 +108,20 @@ button:focus {
 .nav-link {
     color: skyblue !important;
 }
-.dropdown-item, .dropdown-item:hover {
+.dropdown-item {
+  border-radius: 4px;
+  padding-left: 1rem;
+}
+.b-nav-dropdown .dropdown-item,
+.b-nav-dropdown .dropdown-item:hover {
   color: goldenrod;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
-.dropdown-menu {
+.b-nav-dropdown .dropdown-menu {
   top: 46px;
-  border: 2px solid lightgray;
-  border-top: none;
   padding: 0;
+  border-top: none;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
 }

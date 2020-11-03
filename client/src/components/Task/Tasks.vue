@@ -1,21 +1,21 @@
 <template>
   <b-container fluid>
     <b-sidebar id="sidebar-1" title="Groups" shadow backdrop right>
-      <b-button-group class="d-flex border-top">
-        <b-button @click="newTaskGroup()" variant="light" class="m-0">
-          <i class="mr-1 fas fa-plus"></i> New Group
+      <b-button-group class="d-flex m-2 bg-white">
+        <b-button @click="newTaskGroup()" variant="outline-secondary" class="m-0">
+          <i class="mr-1 fas fa-plus"></i> <b>New Group</b>
         </b-button>
-        <b-button v-b-modal.modal-1 variant="light" :class="{'border-left m-0':true, 'disabled':selectedGroup === ''}">
-          <i class="mr-1 fas fa-edit"></i> Edit
+        <b-button v-b-modal.modal-1 variant="outline-secondary" :class="{'disabled':selectedGroup === ''}">
+          <i class="mr-1 fas fa-edit"></i> <b>Edit</b>
         </b-button>
-        <b-button @click="deleteTaskGroup()" variant="light" :class="{'border-left m-0':true, 'disabled':selectedGroup === ''}">
+        <b-button @click="deleteTaskGroup()" variant="outline-secondary" :class="{'disabled':selectedGroup === ''}">
           <i class="fas fa-trash"></i>
         </b-button>
         <b-modal title="Edit Group" id="modal-1" @ok="updateTaskGroup">
           <b-form-input type="text" v-model="newTaskGroupTitle"></b-form-input>
         </b-modal>
       </b-button-group>
-      <b-list-group>
+      <b-list-group class="mx-2">
         <b-list-group-item button
           :class="{ 'active':!selectedGroup, 'px-3 py-2':true }"
           @click="selectGroup('')"
@@ -36,21 +36,25 @@
       </b-list-group>
     </b-sidebar>
     <b-row class="bg-light border-bottom py-3" align-v="center">
-      <b-col class="fixed-col-175">
+      <b-col>
         <b-button @click="newTask()" variant="outline-primary">
           <i class="mr-1 fas fa-plus"></i> <b>New Task</b>
         </b-button>
       </b-col>
       <b-col>
-        <h3 class="text-center m-0">{{ selectedGroup.title }}</h3>
-      </b-col>
-      <b-col class="fixed-col-175">
         <b-button v-b-toggle.sidebar-1 class="float-right" variant="outline-secondary">
           <i class="mr-1 fas fa-layer-group"></i> <b>Groups</b>
         </b-button>
       </b-col>
     </b-row>
     <b-row>
+      <b-col class="text-center">
+        <h3 class="text-center mt-3 mb-0">{{ selectedGroup.title || "All Tasks" }}</h3>
+        <p v-if="tasks.length === 0" class="my-3">Looks like you don't have any tasks yet.</p>
+        <p v-if="tasksForGroup.length === 0" class="my-3">Create a new task to get started!</p>
+      </b-col>
+    </b-row>
+    <b-row v-if="tasksForGroup.length > 0">
       <b-col sm="12" md="4" lg="4" xl="4">
         <task-group title="Not Started"
           class="mt-3"

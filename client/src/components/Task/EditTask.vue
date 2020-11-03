@@ -1,13 +1,13 @@
 <template>
   <b-container fluid>
     <b-row class="bg-light py-3 border-bottom" align-v="center">
-      <b-col>
+      <b-col cols="8">
         <b-button @click="$router.push({ name: 'Tasks' })" variant="outline-secondary" class="m-0">
           <i class="mr-1 fas fa-chevron-left"></i> <b>Tasks</b>
         </b-button>
         <b-button class="mx-3" variant="outline-primary" @click="updateTask"><b>Save</b></b-button>
       </b-col>
-      <b-col>
+      <b-col cols="4">
         <b-button-group class="float-right">
           <b-button variant="outline-danger" @click="deleteTask"><b>Delete</b></b-button>
         </b-button-group>
