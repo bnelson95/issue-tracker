@@ -1,11 +1,11 @@
 <template>
   <b-container fluid>
-    <b-row class="bg-light border-bottom py-3" align-v="center">
+    <b-row class="my-4">
       <b-col>
-        <h3 class="my-0 text-center">Account</h3>
+        <h4 class="my-0 text-center">Account</h4>
       </b-col>
     </b-row>
-    <b-row class="mt-3">
+    <b-row class="my-5">
       <b-col sm="0" md="1" lg="2" xl="2"></b-col>
       <b-col sm="6" md="5" lg="4" xl="4">
         <h5>Profile</h5>
@@ -15,13 +15,18 @@
       <b-col sm="6" md="5" lg="4" xl="4">
         <input-control title="Email" type="email" :value="newEmail" :error="profileErrors.email" @input="value => newEmail = value" />
         <input-control title="Name" :value="newName" :error="profileErrors.name" @input="value => newName = value" />
-        <b-button class="mr-3" variant="primary" :disabled="!canSaveProfile" @click="updateProfile">Save Profile</b-button>
-        <b-button class="float-right" variant="secondary" :disabled="!canCancelSaveProfile" @click="cancelProfileChange">Cancel</b-button>
+        <b-row>
+          <b-col>
+            <b-button block class="shadow-z" variant="primary" :disabled="!canSaveProfile" @click="updateProfile">Save Profile</b-button>
+          </b-col>
+          <b-col>
+            <b-button block class="shadow-z" variant="secondary" :disabled="!canCancelSaveProfile" @click="cancelProfileChange">Cancel</b-button>
+          </b-col>
+        </b-row>
       </b-col>
       <b-col sm="0" md="1" lg="2" xl="2"></b-col>
     </b-row>
-    <hr>
-    <b-row class="mt-3">
+    <b-row class="my-5">
       <b-col sm="0" md="1" lg="2" xl="2"></b-col>
       <b-col sm="6" md="5" lg="4" xl="4">
         <h5>Password</h5>
@@ -32,8 +37,14 @@
         <input-control title="Current Password" type="password" :value="currentPassword" :error="passwordErrors.currentPassword" @input="value => currentPassword = value" />
         <input-control title="New Password" type="password" :value="newPassword" :error="passwordErrors.newPassword" @input="value => newPassword = value" />
         <input-control title="Confirm New Password" type="password" :value="newPassword2" :error="passwordErrors.newPassword2" @input="value => newPassword2 = value" />
-        <b-button class="mr-3" variant="primary" :disabled="!canChangePassword" @click="updatePassword">Update Password</b-button>
-        <b-button class="float-right" variant="secondary" :disabled="!canCancelChangePassword" @click="cancelPasswordChange">Cancel</b-button>
+        <b-row>
+          <b-col>
+            <b-button block class="shadow-z" variant="primary" :disabled="!canChangePassword" @click="updatePassword">Update Password</b-button>
+          </b-col>
+          <b-col>
+            <b-button block class="shadow-z" variant="secondary" :disabled="!canCancelChangePassword" @click="cancelPasswordChange">Cancel</b-button>
+          </b-col>
+        </b-row>
       </b-col>
       <b-col sm="0" md="1" lg="2" xl="2"></b-col>
     </b-row>
@@ -103,6 +114,7 @@ export default {
       this.newEmail = this.profile.email
     },
     cancelPasswordChange () {
+      this.passwordErrors = {}
       this.currentPassword = ''
       this.newPassword = ''
       this.newPassword2 = ''

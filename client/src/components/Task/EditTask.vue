@@ -1,24 +1,28 @@
 <template>
   <b-container fluid>
-    <b-row class="bg-light py-3 border-bottom" align-v="center">
-      <b-col cols="8">
-        <b-button @click="$router.push({ name: 'Tasks' })" variant="outline-secondary" class="m-0">
-          <i class="mr-1 fas fa-chevron-left"></i> <b>Tasks</b>
-        </b-button>
-        <b-button class="mx-3" variant="outline-primary" @click="updateTask"><b>Save</b></b-button>
-      </b-col>
-      <b-col cols="4">
-        <b-button-group class="float-right">
-          <b-button variant="outline-danger" @click="deleteTask"><b>Delete</b></b-button>
-        </b-button-group>
+    <b-row>
+      <b-col class="m-3 shadow-z rounded">
+        <b-row class="bg-white rounded">
+        <b-col cols="8" class="p-1">
+          <b-button @click="$router.push({ name: 'Tasks' })" variant="secondary" class="m-0">
+            <i class="mr-1 fas fa-chevron-left"></i> Tasks
+          </b-button>
+          <b-button class="mx-1" variant="primary" @click="updateTask">Save</b-button>
+        </b-col>
+        <b-col cols="4" class="p-1">
+          <b-button-group class="float-right">
+            <b-button variant="danger" @click="deleteTask">Delete</b-button>
+          </b-button-group>
+        </b-col>
+        </b-row>
       </b-col>
     </b-row>
-    <b-row class="mt-3">
-      <b-col sm="12" lg="8" class="overflow-auto">
-        <h3 class="editor mb-3 p-2 rounded" contenteditable placeholder="Title" v-text="task.title" @blur="onTitleEdit"></h3>
+    <b-row>
+      <b-col sm="12" md="7" lg="8">
+        <h3 class="editor mb-3 p-2 rounded bg-white shadow-z" contenteditable placeholder="Title" v-text="task.title" @blur="onTitleEdit"></h3>
         <editor-control title="Description" :value="task.description" :input="value => task.description = value" />
       </b-col>
-      <b-col sm="12" lg="4">
+      <b-col sm="12" md="5" lg="4">
         <single-select-control title="Group" :value="task.group" :source="groups" @input="value => task.group = value" allowEmpty>
           <template v-slot:button-content>{{ groupText || "No group" }}</template>
           <template v-slot:item-content="slotProps">{{ slotProps.item.title }}</template>

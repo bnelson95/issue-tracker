@@ -1,7 +1,7 @@
 <template>
   <b-container fluid>
     <b-sidebar id="sidebar-1" title="Groups" shadow backdrop right>
-      <b-button-group class="d-flex m-2 bg-white">
+      <b-button-group class="d-flex rounded m-3 bg-white shadow-z">
         <b-button @click="newTaskGroup()" variant="outline-secondary" class="m-0">
           <i class="mr-1 fas fa-plus"></i> <b>New Group</b>
         </b-button>
@@ -15,7 +15,7 @@
           <b-form-input type="text" v-model="newTaskGroupTitle"></b-form-input>
         </b-modal>
       </b-button-group>
-      <b-list-group class="mx-2">
+      <b-list-group class="m-3 shadow-z">
         <b-list-group-item button
           :class="{ 'active':!selectedGroup, 'px-3 py-2':true }"
           @click="selectGroup('')"
@@ -35,81 +35,74 @@
         </b-list-group-item>
       </b-list-group>
     </b-sidebar>
-    <b-row class="bg-light border-bottom py-3" align-v="center">
-      <b-col>
-        <b-button @click="newTask()" variant="outline-primary">
-          <i class="mr-1 fas fa-plus"></i> <b>New Task</b>
-        </b-button>
-      </b-col>
-      <b-col>
-        <b-button v-b-toggle.sidebar-1 class="float-right" variant="outline-secondary">
-          <i class="mr-1 fas fa-layer-group"></i> <b>Groups</b>
-        </b-button>
+    <b-row class="mt-4">
+      <b-col class="text-center" align-self="center">
+        <h4 class="">{{ selectedGroup.title || "All Tasks" }}</h4>
       </b-col>
     </b-row>
     <b-row>
-      <b-col class="text-center">
-        <h3 class="text-center mt-3 mb-0">{{ selectedGroup.title || "All Tasks" }}</h3>
+      <b-col class="m-3 shadow-z rounded">
+        <b-row class="bg-white rounded">
+          <b-col class="p-1">
+            <b-button class="" @click="newTask()" variant="primary">
+              <i class="mr-1 fas fa-plus"></i> New Task
+            </b-button>
+          </b-col>
+          <b-col class="p-1">
+            <b-button v-b-toggle.sidebar-1 class="float-right d-inline" variant="secondary">
+              <i class="mr-1 fas fa-layer-group"></i> Groups
+            </b-button>
+          </b-col>
+        </b-row>
+      </b-col> 
+    </b-row>
+    <b-row v-if="tasks.length === 0 || tasksForGroup.length === 0">
+      <b-col class="text-center mb-3">
         <p v-if="tasks.length === 0" class="my-3">Looks like you don't have any tasks yet.</p>
         <p v-if="tasksForGroup.length === 0" class="my-3">Create a new task to get started!</p>
       </b-col>
     </b-row>
-    <b-row v-if="tasksForGroup.length > 0" class="mt-3">
+    <b-row v-if="tasksForGroup.length > 0">
       <b-col sm="12" md="4" lg="4" xl="4">
         <task-group title="Not Started"
           class="mb-3"
           icon="fa-hourglass-start"
           :tasks="notStartedTasks"
-          cardBorderVariant="primary">
-          <template v-slot:action-buttons="slotProps">
-            <b-button variant="outline-danger" @click="deleteTask(slotProps.task)">
-              <i class="mr-1 fas fa-trash"></i> Delete
-            </b-button>
-            <b-button variant="outline-secondary" @click="editTask(slotProps.task)">
-              <i class="mr-1 fas fa-edit"></i> Edit
-            </b-button>
-            <b-button variant="outline-info" @click="startTask(slotProps.task)">
-              <i class="mr-1 fas fa-hourglass-half"></i> Start
-            </b-button>
-          </template>
-        </task-group>
+          cardBorderVariant="primary"
+          leftButtonVariant="danger"
+          leftButtonText="Delete"
+          leftButtonIcon="fa-trash"
+          :leftButtonClick="(task) => deleteTask(task)"
+          rightButtonVariant="info"
+          rightButtonText="Start"
+          rightButtonIcon="fa-hourglass-half"
+          :rightButtonClick="(task) => startTask(task)" />
       </b-col>
       <b-col sm="12" md="4" lg="4" xl="4">
         <task-group title="In Progress"
           class="mb-3"
           icon="fa-hourglass-half"
           :tasks="inProgressTasks"
-          cardBorderVariant="info">
-          <template v-slot:action-buttons="slotProps">
-            <b-button variant="outline-primary" @click="revertTask(slotProps.task)">
-              <i class="mr-1 fas fa-hourglass-start"></i> Revert
-            </b-button>
-            <b-button variant="outline-secondary" @click="editTask(slotProps.task)">
-              <i class="mr-1 fas fa-edit"></i> Edit
-            </b-button>
-            <b-button variant="outline-success" @click="completeTask(slotProps.task)">
-              <i class="mr-1 fas fa-hourglass-end"></i> Done
-            </b-button>
-          </template>
-        </task-group>
+          cardBorderVariant="info"
+          leftButtonVariant="primary"
+          leftButtonText="Revert"
+          leftButtonIcon="fa-hourglass-start"
+          :leftButtonClick="(task) => revertTask(task)"
+          rightButtonVariant="success"
+          rightButtonText="Done"
+          rightButtonIcon="fa-hourglass-end"
+          :rightButtonClick="(task) => completeTask(task)" />
       </b-col>
       <b-col sm="12" md="4" lg="4" xl="4">
         <task-group title="Completed"
           class="mb-3"
           icon="fa-hourglass-end"
           :tasks="completedTasks"
-          cardBorderVariant="success">
-          <template v-slot:action-buttons="slotProps">
-            <b-button variant="outline-info" @click="startTask(slotProps.task)">
-              <i class="mr-1 fas fa-hourglass-half"></i> Revert
-            </b-button>
-            <b-button variant="outline-secondary" @click="editTask(slotProps.task)">
-              <i class="mr-1 fas fa-edit"></i> Edit
-            </b-button>
-            <b-button variant="outline-secondary" disabled>
-            </b-button>
-          </template>
-        </task-group>
+          cardBorderVariant="success"
+          leftButtonVariant="info"
+          leftButtonText="Revert"
+          leftButtonIcon="fa-hourglass-half"
+          :leftButtonClick="(task) => startTask(task)" />
       </b-col>
     </b-row>
   </b-container>

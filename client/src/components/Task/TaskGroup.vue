@@ -1,37 +1,53 @@
 <template>
   <b-card no-body
+    class="border-0 shadow-z"
+    header-bg-variant="white"
     :header-text-variant="cardBorderVariant">
     <template v-slot:header>
-      <h5 class="mb-0">
+      <p class="m-0">
         <i :class="'mr-2 fas ' + icon"></i>
         <b>{{ title }}</b>
-        <b-badge :variant="cardBorderVariant" class="m-auto float-right">{{ tasks.length }}</b-badge>
-      </h5>
+      </p>
     </template>
-    <b-list-group flush class="rounded">
+    <b-list-group flush>
       <b-list-group-item :class="{'task':true, 'p-0':true }" v-for="(task) in orderedTasks"
         v-bind:key="task._id"
         v-b-toggle="'accordian-' + task._id">
         <b-row no-gutters class="align-items-center">
           <b-col class="ml-3 my-2 text-nowrap overflow-hidden">
-            {{ task.title || 'Untitled' }}
+            <h6 class="m-0">{{ task.title || 'Untitled' }}</h6>
           </b-col> 
           <b-col class="priority-col text-center">
             <i :class="'fas ' + getPriorityIcon(task)"></i>
           </b-col>
         </b-row>
           <b-collapse :id="'accordian-' + task._id" accordion="my-accordion">
-            <div v-if="task.tags" class="mx-3 mt-0">
+            <div v-if="task.tags" class="mx-3 my-0">
               <div class="mb-2">
               <b-badge v-for="tag in task.tags" v-bind:key="tag" class="mr-1">
                 {{ tag }}
               </b-badge>
               </div>
             </div>
-            <div v-if="task.description" class="mx-3 mb-2"><span v-html="task.description"></span></div>
-            <b-button-group class="d-flex m-2">
-              <slot name="action-buttons" :task="task"></slot>
-            </b-button-group>
+            <!--<b-button-group class="d-flex m-2 rounded shadow-z">-->
+            <b-row class="m-1" align-h="center">
+              <b-col class="p-0">
+                <b-button block :variant="leftButtonVariant" @click="leftButtonClick(task)">
+                  <i :class="'mr-1 fas '+leftButtonIcon"></i> {{ leftButtonText }}
+                </b-button>
+              </b-col>
+              <b-col class="mx-1 px-0">
+                <b-button block variant="outline-secondary" @click="$router.push({ name: 'EditTask', params: { id: task._id } })">
+                  <i class="mr-1 fas fa-edit"></i> Edit
+                </b-button>
+              </b-col>
+              <b-col class="p-0">
+                <b-button v-if="rightButtonClick" block class="" :variant="rightButtonVariant" @click="rightButtonClick(task)">
+                  <i :class="'mr-1 fas '+rightButtonIcon"></i> {{ rightButtonText }}
+                </b-button>
+              </b-col>
+            </b-row>
+            <!--</b-button-group>-->
           </b-collapse>
       </b-list-group-item>
     </b-list-group>
@@ -56,7 +72,15 @@ export default {
     title: { type: String },
     icon: { type: String },
     tasks: { type: Array },
-    completeTask: { type: Function }
+    completeTask: { type: Function },
+    leftButtonVariant: { type: String },
+    leftButtonText: { type: String },
+    leftButtonIcon: { type: String },
+    leftButtonClick: { type: Function },
+    rightButtonVariant: { type: String },
+    rightButtonText: { type: String },
+    rightButtonIcon: { type: String },
+    rightButtonClick: { type: Function }
   },
   computed: {
     orderedTasks: function () {
@@ -78,11 +102,13 @@ export default {
 // Import Bootstrap and BootstrapVue source SCSS files
 @import '../../../node_modules/bootstrap/scss/bootstrap.scss';
 @import '../../../node_modules/bootstrap-vue/src/index.scss';
-
 .task {
   outline: none;
 }
 .priority-col {
   flex: 0 0 40px;
+}
+.card-header {
+  padding: 0.5rem 1rem;
 }
 </style>

@@ -1,23 +1,21 @@
 <template>
-  <b-container fluid>
-    <b-row class="bg-light border-bottom py-3" align-v="center">
-      <b-col>
-        <h3 class="my-0 text-center">Log in</h3>
-      </b-col>
-    </b-row>
-    <b-row class="mt-3">
+  <b-container fluid class="bg-gradient">
+    <b-row>
       <b-col style="max-width: 30rem; margin: 0 auto;">
-        <p class="text-center">Need an account? <router-link v-bind:to="{ name: 'Register' }">Register</router-link></p>
-        <b-card class="my-3">
-          <b-form @submit.prevent="login">
+        <div class="bg-light rounded shadow-inset-z p-4 my-4">
+          <h3 class="mb-3 text-center">Log in</h3>
+          <p class="text-center">Need an account? <router-link v-bind:to="{ name: 'Register' }">Register</router-link></p>
+          <b-form @submit.prevent="login" class="mt-3">
             <input-control title="Email" :value="email" :error="errors.email" @input="value => email = value" />
             <input-control type="password" title="Password" :value="password" :error="errors.password" @input="value => password = value" />
             <div class="text-center">
-              <b-button block variant="primary" id="login-button" type="submit">Log in</b-button>
+              <b-button block variant="primary" type="submit">Log in</b-button>
             </div>
           </b-form>
-        </b-card>
-        <p class="text-center"><router-link v-bind:to="{ name: 'LoginForgot' }">Forgot your password?</router-link></p>
+          <p class="text-center mt-3">
+            <router-link v-bind:to="{ name: 'LoginForgot' }">Forgot your password?</router-link>
+          </p>
+        </div>
       </b-col>
     </b-row>
   </b-container>
@@ -59,11 +57,7 @@ export default {
 </script>
 
 <style scoped>
-#login-button {
-  align-self: center;
-}
-.content-footer {
-  display: flex;
-  justify-content: center;
+.inset-shadow {
+  box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.2);
 }
 </style>

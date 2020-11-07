@@ -17,17 +17,17 @@
               <option>TODO</option>
             </datalist>
             <b-input-group-append>
-              <b-button variant="light" class="border-left rounded-0" @click="addTag()">Add</b-button>
+              <b-button class="rounded" variant="light" @click="addTag()">Add</b-button>
             </b-input-group-append>
           </b-input-group>
-          <div class="p-1 border-top" v-if="tags.length > 0">
+          <div class="p-1" v-if="tags.length > 0">
             <b-form-tag
               v-for="tag in tags"
               @remove="removeTag(tag)"
               :key="tag"
               :title="tag"
               :variant="tagVariant"
-              class="m-1 px-2 py-1 border">
+              class="m-1 px-2 py-1">
               {{ tag }}
             </b-form-tag>
           </div>

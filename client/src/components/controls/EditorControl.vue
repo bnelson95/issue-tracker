@@ -98,7 +98,7 @@
           </b-button-group>
         </div>
       </editor-menu-bar>
-      <div class="mx-2 mb-1">
+      <div class="mx-2 pb-1">
         <editor-content class="editor__content" :editor="editor" />
       </div>
     </template>

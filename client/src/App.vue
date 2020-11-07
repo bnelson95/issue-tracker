@@ -54,7 +54,7 @@ body {
   font-family: 'Quicksand', sans-serif !important;
 }
 p {
-  margin: 0
+  margin: 0;
 }
 a {
   color: skyblue;
@@ -68,13 +68,6 @@ a {
 h3[contenteditable] {
     border: 1px solid transparent;
 }
-.editor[contenteditable]:hover, .editor[contenteditable]:focus {
-  background-color: white;
-  border: 1px solid #dee2e6;
-}
-button, .btn {
-
-}
 button:hover {
   outline: none;
 }
@@ -87,12 +80,6 @@ button:focus {
   box-shadow: none !important;
   border: none;
 }
-.fixed-col-120 {
-  flex: 0 0 120px;
-}
-.fixed-col-175 {
-  flex: 0 0 175px;
-}
 .brand {
   font-weight: bold;
   letter-spacing: 4px;
@@ -100,10 +87,10 @@ button:focus {
 }
 .bar {
   border: 0;
-  border-bottom: 1px solid;
+  border-bottom: 3px solid;
   border-image-source: linear-gradient(90deg, goldenrod, skyblue);
   border-image-slice: 1;
-  box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 }
 .nav-link {
     color: skyblue !important;
@@ -118,11 +105,34 @@ button:focus {
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
-.b-nav-dropdown .dropdown-menu {
-  top: 46px;
+.dropdown-menu {
   padding: 0;
-  border-top: none;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
+  border: 0;
+  box-shadow: 0 0.2rem 0.9rem rgba(0, 0, 0, 0.1) !important;
+}
+.btn, button {
+  border: 0px solid !important;
+}
+.shadow-z {
+  box-shadow: 0 0.2rem 0.9rem rgba(0, 0, 0, 0.1) !important;
+}
+.shadow-inset-z {
+  box-shadow: inset 0 -0.2rem 0.9rem rgba(0, 0, 0, 0.1) !important;
+}
+.fixed-col-150 {
+  flex: 0 0 150px;
+}
+.fixed-col-200 {
+  flex: 0 0 200px;
+}
+.bg-gradient {
+  background-image: linear-gradient(45deg, goldenrod, skyblue);
+  top: 57px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  width: auto;
+  height: auto;
 }
 </style>
