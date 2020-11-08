@@ -135,4 +135,7 @@ button:focus {
   width: auto;
   height: auto;
 }
+.modal-content, .modal-header, .modal-footer {
+  border: 0;
+}
 </style>

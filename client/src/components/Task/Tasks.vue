@@ -8,9 +8,16 @@
         <b-button v-b-modal.modal-1 variant="outline-secondary" :class="{'disabled':selectedGroup === ''}">
           <i class="mr-1 fas fa-edit"></i> <b>Edit</b>
         </b-button>
-        <b-button @click="deleteTaskGroup()" variant="outline-secondary" :class="{'disabled':selectedGroup === ''}">
+        <b-button v-b-modal.delete-group-confirm variant="outline-secondary" :class="{'disabled':selectedGroup === ''}">
           <i class="fas fa-trash"></i>
         </b-button>
+        <b-modal id="delete-group-confirm" title="Delete Task">
+          <p>Are you sure you want to delete this group? This action cannot be undone.</p>
+          <template #modal-footer="{ cancel, hide }">
+            <b-button @click="cancel">Cancel</b-button>
+            <b-button @click="{ deleteTaskGroup(); hide(); }" variant="danger">Delete</b-button>
+          </template>
+        </b-modal>
         <b-modal title="Edit Group" id="modal-1" @ok="updateTaskGroup">
           <b-form-input type="text" v-model="newTaskGroupTitle"></b-form-input>
         </b-modal>
