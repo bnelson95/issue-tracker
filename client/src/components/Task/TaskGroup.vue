@@ -32,7 +32,7 @@
             <!--<b-button-group class="d-flex m-2 rounded shadow-z">-->
             <b-row class="m-1" align-h="center">
               <b-col class="p-0">
-                <b-button block :variant="leftButtonVariant" @click="leftButtonClick(task)">
+                <b-button v-if="leftButtonClick" block :variant="leftButtonVariant" @click="leftButtonClick(task)">
                   <i :class="'mr-1 fas '+leftButtonIcon"></i> {{ leftButtonText }}
                 </b-button>
               </b-col>
