@@ -4,97 +4,26 @@
       <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
         <div class="menubar m-1">
           <b-button-group class="m-1">
-            <b-button
-              variant="light"
-              :class="{ 'active': isActive.bold() }"
-              @click="commands.bold">
+            <b-button variant="light" :class="{ 'active': isActive.bold() }" @click="commands.bold">
               <i class="fas fa-bold"></i>
             </b-button>
-            <b-button
-              variant="light"
-              :class="{ 'active': isActive.italic() }"
-              @click="commands.italic">
+            <b-button variant="light" :class="{ 'active': isActive.italic() }" @click="commands.italic">
               <i class="fas fa-italic"></i>
             </b-button>
-            <b-button
-              variant="light"
-              :class="{ 'active': isActive.strike() }"
-              @click="commands.strike">
+            <b-button variant="light" :class="{ 'active': isActive.strike() }" @click="commands.strike">
               <i class="fas fa-strikethrough"></i>
             </b-button>
-            <b-button
-              variant="light"
-              :class="{ 'active': isActive.underline() }"
-              @click="commands.underline">
+            <b-button variant="light" :class="{ 'active': isActive.underline() }" @click="commands.underline">
               <i class="fas fa-underline"></i>
             </b-button>
           </b-button-group>
-
           <b-button-group class="m-1">
-          <b-button
-              variant="light"
-            :class="{ 'active': isActive.heading({ level: 1 }) }"
-            @click="commands.heading({ level: 1 })">
-            H1
-          </b-button>
-
-          <b-button
-              variant="light"
-            :class="{ 'active': isActive.heading({ level: 2 }) }"
-            @click="commands.heading({ level: 2 })">
-            H2
-          </b-button>
-
-          <b-button
-              variant="light"
-            :class="{ 'active': isActive.heading({ level: 3 }) }"
-            @click="commands.heading({ level: 3 })">
-            H3
-          </b-button>
-          </b-button-group>
-
-          <b-button-group class="m-1">
-          <b-button
-              variant="light"
-            :class="{ 'active': isActive.bullet_list() }"
-            @click="commands.bullet_list">
-            <i class="fas fa-list-ul"></i>
-          </b-button>
-          <b-button
-              variant="light"
-            :class="{ 'active': isActive.ordered_list() }"
-            @click="commands.ordered_list">
-            <i class="fas fa-list-ol"></i>
-          </b-button>
-          </b-button-group>
-
-          <b-button-group class="m-1">
-          <b-button
-              variant="light"
-            :class="{ 'active': isActive.blockquote() }"
-            @click="commands.blockquote">
-            <i class="fas fa-quote-left"></i>
-          </b-button>
-
-          <b-button
-              variant="light"
-            @click="commands.horizontal_rule"
-          >
-            <i class="fas fa-window-minimize"></i>
-          </b-button>
-          </b-button-group>
-
-          <b-button-group class="m-1">
-          <b-button
-              variant="light"
-            @click="commands.undo">
-            <i class="fas fa-undo"></i>
-          </b-button>
-          <b-button
-              variant="light"
-            @click="commands.redo">
-            <i class="fas fa-redo"></i>
-          </b-button>
+            <b-button variant="light" :class="{ 'active': isActive.bullet_list() }" @click="commands.bullet_list">
+              <i class="fas fa-list-ul"></i>
+            </b-button>
+            <b-button variant="light" :class="{ 'active': isActive.ordered_list() }" @click="commands.ordered_list">
+              <i class="fas fa-list-ol"></i>
+            </b-button>
           </b-button-group>
         </div>
       </editor-menu-bar>
