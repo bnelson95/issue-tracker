@@ -28,50 +28,55 @@ const router = new Router({
       path: '/item',
       name: 'Items',
       component: Items,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, title: 'Items' }
     },
     {
       path: '/user/register',
       name: 'Register',
-      component: Register
+      component: Register,
+      meta: { title: 'Register' }
     },
     {
       path: '/user/login',
       name: 'Login',
-      component: Login
+      component: Login,
+      meta: { title: 'Login' }
     },
     {
       path: '/user/logout',
       name: 'Logout',
-      component: Logout
+      component: Logout,
+      meta: { title: 'Logout' }
     },
     {
       path: '/user/profile',
       name: 'Profile',
       component: Profile,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, title: 'Profile' }
     },
     {
       path: '/user/login/forgot',
       name: 'LoginForgot',
-      component: LoginForgot
+      component: LoginForgot,
+      meta: { title: 'Forgot Password' }
     },
     {
       path: '/user/login/reset/:id',
       name: 'LoginReset',
-      component: LoginReset
+      component: LoginReset,
+      meta: { title: 'Reset Password' }
     },
     {
       path: '/task',
       name: 'Tasks',
       component: Tasks,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, title: 'Tasks' }
     },
     {
       path: '/task/:id',
       name: 'EditTask',
       component: EditTask,
-      meta: { requiresAuth: true }
+      meta: { requiresAuth: true, title: 'Edit Task' }
     }
   ]
 })
@@ -99,5 +104,13 @@ router.beforeEach(async (to, from, next) => {
     next() // make sure to always call next()!
   }
 })
+
+router.afterEach((to) => {
+    // Use next tick to handle router history correctly
+    // see: https://github.com/vuejs/vue-router/issues/914#issuecomment-384477609
+    Vue.nextTick(() => {
+        document.title = to.meta.title || 'Briskar';
+    });
+});
 
 export default router
