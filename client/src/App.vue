@@ -135,7 +135,14 @@ button:focus {
   width: auto;
   height: auto;
 }
+.bg-gradient-computer {
+  background-image: linear-gradient(45deg, rgba(255, 195, 43, 0.8), rgba(120, 184, 209, 0.85)), url('./assets/glenn-carstens-peters-npxXWgQ33ZQ-unsplash.jpg');
+  background-size: cover;
+}
 .modal-content, .modal-header, .modal-footer {
   border: 0;
+}
+.h-500px {
+  min-height: 500px;
 }
 </style>
