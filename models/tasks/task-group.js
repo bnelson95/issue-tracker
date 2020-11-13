@@ -1,7 +1,6 @@
 import mongoose from "mongoose";
-const { Schema, model } = mongoose;
 
-var TaskGroupSchema = new Schema({
+var TaskGroupSchema = new mongoose.Schema({
 	title: String,
 	description: String,
 	createdBy: String,
@@ -20,7 +19,11 @@ var TaskGroupSchema = new Schema({
 	color: {
 		type: String,
 		default: "fff"
-	}
+	},
+	sharedWith: [{
+		type: mongoose.Schema.Types.ObjectId,
+		ref: 'User'
+	}]
 });
 
-export default model("TaskGroup", TaskGroupSchema);
+export default mongoose.model("TaskGroup", TaskGroupSchema);

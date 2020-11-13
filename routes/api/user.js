@@ -120,11 +120,12 @@ router.post("/login", (req, res) => {
 
 router.get('/profile', async (req, res) => {
   passport.authenticate('jwt', { session: false }, async (err, user, info) => {
-    if (err) { console.log(err); }
-    if (info) { console.log(info); }
-    if (!user) { res.status(403); }
-    
-    res.send({ profile: user });
+    if (!user) return res.status(403).send()
+    user.password = undefined
+    user.passwordResetExpires = undefined
+    user.passwordResetToken = undefined
+    user.date = undefined
+    return res.status(200).send({ profile: user });
   })(req, res);
 });
 
@@ -133,9 +134,7 @@ router.post('/profile', async (req, res) => {
     if (!user) { res.status(403); }
     try {
       const { errors } = validateUpdateProfileInput(req.body);
-      if (errors && Object.keys(errors).length !== 0) {
-        return res.json({ errors });
-      }
+      if (errors && Object.keys(errors).length !== 0) return res.json({ errors });
       const response = await User.findByIdAndUpdate(user.id, req.body)
       if (!response) throw Error('Something went wrong ')
       const updated = { ...response._doc, ...req.body }

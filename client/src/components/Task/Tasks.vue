@@ -5,10 +5,10 @@
         <b-button @click="newTaskGroup()" variant="outline-secondary" class="m-0">
           <i class="mr-1 fas fa-plus"></i> <b>New Group</b>
         </b-button>
-        <b-button v-b-modal.modal-1 variant="outline-secondary" :class="{'disabled':selectedGroup === ''}">
+        <b-button v-b-modal.modal-1 variant="outline-secondary" :class="{'disabled':selectedGroup === '' || $store.state.profile._id !== selectedGroup.createdBy}">
           <i class="mr-1 fas fa-edit"></i> <b>Edit</b>
         </b-button>
-        <b-button v-b-modal.delete-group-confirm variant="outline-secondary" :class="{'disabled':selectedGroup === ''}">
+        <b-button v-b-modal.delete-group-confirm variant="outline-secondary" :class="{'disabled':selectedGroup === '' || $store.state.profile._id !== selectedGroup.createdBy}">
           <i class="fas fa-trash"></i>
         </b-button>
         <b-modal id="delete-group-confirm" title="Delete Task">
@@ -19,7 +19,8 @@
           </template>
         </b-modal>
         <b-modal title="Edit Group" id="modal-1" @ok="updateTaskGroup">
-          <b-form-input type="text" v-model="newTaskGroupTitle"></b-form-input>
+          <input-control title="Title" :value="newTaskGroupTitle" @input="value => newTaskGroupTitle = value" />
+          <tag-control title="Share With" placeholder="User email" :value="newTaskSharedWith" @input="value => newTaskSharedWith = value" />
         </b-modal>
       </b-button-group>
       <b-list-group class="m-3 shadow-z">
@@ -29,15 +30,28 @@
           variant="light">
           All Tasks
         </b-list-group-item>
-        <b-list-group-item button v-for="group in groups" v-bind:key="group._id"
+        <p v-if="sharedGroups && sharedGroups.length > 0" class="mx-3 my-1"><b>My Groups</b></p>
+        <b-list-group-item button v-for="group in myGroups" v-bind:key="group._id"
           :class="{ 'active': selectedGroup._id === group._id, 'px-3 py-2':true }"
           @click="selectGroup(group)"
           variant="light">
+          <i v-if="group.sharedWith && group.sharedWith.length > 0" class="mr-1 fas fa-users"></i>
           {{ group.title }}
           <span class="float-right">
             <b-badge v-if="getCount(group, 'notstarted')" variant="primary" class="border">{{ getCount(group, 'notstarted') }}</b-badge>
             <b-badge v-if="getCount(group, 'inprogress')" variant="info" class="border">{{ getCount(group, 'inprogress') }}</b-badge>
-            <b-badge v-if="getCount(group, 'completed')" variant="success" class="border">{{ getCount(group, 'completed') }}</b-badge>
+          </span>
+        </b-list-group-item>
+        <span v-if="sharedGroups && sharedGroups.length > 0" class="mx-3 my-1"><b>Shared With Me</b></span>
+        <b-list-group-item button v-for="group in sharedGroups" v-bind:key="group._id"
+          :class="{ 'active': selectedGroup._id === group._id, 'px-3 py-2':true }"
+          @click="selectGroup(group)"
+          variant="light">
+          <i v-if="group.sharedWith && group.sharedWith.length > 0" class="mr-1 fas fa-users"></i>
+          {{ group.title }}
+          <span class="float-right">
+            <b-badge v-if="getCount(group, 'notstarted')" variant="primary" class="border">{{ getCount(group, 'notstarted') }}</b-badge>
+            <b-badge v-if="getCount(group, 'inprogress')" variant="info" class="border">{{ getCount(group, 'inprogress') }}</b-badge>
           </span>
         </b-list-group-item>
       </b-list-group>
@@ -115,11 +129,15 @@
 import TaskService from '@/services/Tasks/TaskService'
 import TaskGroupService from '@/services/Tasks/TaskGroupService'
 //import SplitSideContainer from '../SplitSideContainer.vue'
+import InputControl from '@/components/controls/InputControl.vue'
+import TagControl from '@/components/controls/TagControl.vue'
 import TaskGroup from './TaskGroup.vue'
 export default {
   name: 'Tasks',
   components: {
     //SplitSideContainer,
+    InputControl,
+    TagControl,
     TaskGroup
   },
   data () {
@@ -128,7 +146,9 @@ export default {
       selectedGroup: '',
       tasks: [],
       newTaskGroupTitle: '',
-      newTaskGroupColor: ''
+      newTaskGroupColor: '',
+      shareWith: '',
+      newTaskSharedWith: []
     }
   },
   computed: {
@@ -148,6 +168,12 @@ export default {
     },
     archivedTasks: function () {
       return this.tasksForGroup.filter(x => x.status === 'archived')
+    },
+    myGroups: function () {
+      return this.groups.filter(x => x.createdBy === this.$store.state.profile._id)
+    },
+    sharedGroups: function () {
+      return this.groups.filter(x => x.createdBy !== this.$store.state.profile._id)
     }
   },
   async mounted () {
@@ -163,11 +189,15 @@ export default {
         this.selectedGroup = group
         this.newTaskGroupTitle = group.title
         this.newTaskGroupColor = group.color
+        this.newTaskSharedWith = group.sharedWith
+
       } else {
         localStorage.setItem('selected-group', '')
         this.selectedGroup = ''
         this.newTaskGroupTitle = ''
         this.newTaskGroupColor = ''
+        this.shareWith = ''
+        this.newTaskSharedWith = []
       }
     },
     getCount (group, status) {
@@ -195,12 +225,16 @@ export default {
       const response = await TaskGroupService.updateTaskGroup({
         ...this.selectedGroup,
         title: this.newTaskGroupTitle,
-        color: this.newTaskGroupColor
+        color: this.newTaskGroupColor,
+        sharedWith: this.newTaskSharedWith
       })
       await this.getTaskGroups()
       if (response.data.group) {
         this.selectGroup(response.data.group)
       }
+    },
+    addShareWith () {
+      this.newTaskSharedWith.push(this.shareWith)
     },
     async getTasks () {
       const response = await TaskService.fetchTasks()

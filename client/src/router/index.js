@@ -88,10 +88,13 @@ router.beforeEach(async (to, from, next) => {
     try {
       const response = await UserService.getProfile()
       store.commit('setIsLoggedIn', response.data.profile ? true : false)
+      store.commit('setProfile', response.data.profile)
     } catch {
       store.commit('setIsLoggedIn', false)
+      store.commit('setProfile', {})
     }
 
+    
     if (!store.state.isLoggedIn) {
       next({
         path: '/user/login',

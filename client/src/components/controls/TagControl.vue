@@ -10,7 +10,7 @@
               list="my-list-id"
               v-bind="inputAttrs"
               v-on="inputHandlers"
-              placeholder="New tag - Press enter to add"
+              :placeholder="placeholder || 'New tag - Press enter to add'"
               class="form-control">
             </b-form-input>
             <datalist id="my-list-id">
@@ -50,6 +50,9 @@ export default {
   },
   props: {
     title: {
+      type: String
+    },
+    placeholder: {
       type: String
     },
     value: {

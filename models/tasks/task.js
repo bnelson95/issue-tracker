@@ -29,7 +29,7 @@ var TaskSchema = new Schema({
 	},
 	group: {
 		type: String,
-		default: 'none'
+		default: ''
 	},
 	tags: [{
 		type: String
