@@ -203,7 +203,7 @@ router.post('/login/forgot', async (req, res) => {
           }
         });
         var mailOptions = {
-          from: MAILER_AUTH_USER,
+          from: "Briskar <admin@briskar.net>",
           to: user.email,
           subject: 'Password Reset',
           html: `<p>You are receiving this because you (or someone else) have requested the reset of the password for your account.\n\n 
