@@ -11,6 +11,7 @@
               <i class="fas fa-bars"></i>
             </template>
             <b-dropdown-item to="/task"><i class="fas mr-3 fa-check-double"></i>Tasks</b-dropdown-item>
+            <b-dropdown-item to="/item"><i class="fas mr-3 fa-list"></i>Items</b-dropdown-item>
           </b-nav-item-dropdown>
           <b-nav-item-dropdown v-if="$store.state.isLoggedIn" right no-caret>
             <template #button-content>
