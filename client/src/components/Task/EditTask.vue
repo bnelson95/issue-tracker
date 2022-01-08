@@ -35,6 +35,7 @@
         <status-control :task="task" :input="value => task.status = value" />
         <priority-control :task="task" :input="value => task.priority = value" />
         <tag-control title="Tags" :value="task.tags" @input="value => task.tags = value" />
+        <links-control title="Links" :links="task.links" @input="value => task.links = value" />
       </b-col>
     </b-row>
   </b-container>
@@ -44,6 +45,7 @@
 import TaskService from '@/services/Tasks/TaskService'
 import TaskGroupService from '@/services/Tasks/TaskGroupService'
 import TagControl from '@/components/controls/TagControl.vue'
+import LinksControl from '@/components/controls/LinksControl.vue'
 //import InputControl from '@/components/controls/InputControl.vue'
 import SingleSelectControl from '@/components/controls/SingleSelectControl.vue'
 import EditorControl from '@/components/controls/EditorControl.vue'
@@ -53,6 +55,7 @@ export default {
   name: 'EditTask',
   components: {
     TagControl,
+    LinksControl,
     //InputControl,
     SingleSelectControl,
     StatusControl,
