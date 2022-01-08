@@ -33,6 +33,10 @@ var TaskSchema = new Schema({
 	},
 	tags: [{
 		type: String
+	}],
+	links: [{
+		ref: { type: String },
+		title: { type: String }
 	}]
 });
 
