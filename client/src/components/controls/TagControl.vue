@@ -1,5 +1,5 @@
 <template>
-  <control-wrapper :title="title">
+  <control-wrapper :title="title" icon="fa-tags">
     <template v-slot:control-content>
       <b-form-tags class="p-0" size="lg" :value="value" @input="$emit('input', $event)" tag-variant="light">
         <template v-slot="{ tags, inputAttrs, inputHandlers, tagVariant, addTag, removeTag }">
