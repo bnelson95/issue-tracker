@@ -45,6 +45,7 @@ export default {
         case "text": return "fa-font"
         case "email": return "fa-at"
         case "password": return "fa-lock"
+        case "url": return "fa-link"
         default: return ""
       }
     }
