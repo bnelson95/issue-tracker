@@ -1,5 +1,5 @@
 <template>
-  <b-container fluid>
+  <b-container fluid="xl">
     <b-sidebar id="sidebar-1" title="Groups" shadow backdrop right>
       <b-button-group class="d-flex rounded m-3 bg-white shadow-z">
         <b-button @click="newTaskGroup()" variant="outline-secondary" class="m-0">
@@ -56,26 +56,22 @@
         </b-list-group-item>
       </b-list-group>
     </b-sidebar>
-    <b-row class="mt-4">
-      <b-col class="text-center" align-self="center">
-        <h4 class="">{{ selectedGroup.title || "All Tasks" }}</h4>
+    <b-row class="my-4 align-items-center">
+      <b-col class="text-truncate">
+        <h4 class="mx-1 my-0">{{ selectedGroup.title || "All Tasks" }}</h4>
+      </b-col>
+      <b-col class="col-auto">
+        <b-button v-b-toggle.sidebar-1 class="" variant="light">
+          <i class="mx-1 fas fa-layer-group"></i> Groups
+        </b-button>
       </b-col>
     </b-row>
-    <b-row>
-      <b-col class="m-3 shadow-z rounded">
-        <b-row class="bg-white rounded">
-          <b-col class="p-1">
-            <b-button class="" @click="newTask()" variant="primary">
-              <i class="mr-1 fas fa-plus"></i> New Task
-            </b-button>
-          </b-col>
-          <b-col class="p-1">
-            <b-button v-b-toggle.sidebar-1 class="float-right d-inline" variant="secondary">
-              <i class="mr-1 fas fa-layer-group"></i> Groups
-            </b-button>
-          </b-col>
-        </b-row>
-      </b-col> 
+    <b-row class="m-0 mb-4 bg-white rounded shadow-z">
+      <b-col class="p-0">
+        <b-button class="m-1" @click="newTask()" variant="primary">
+          <i class="mr-1 fas fa-plus"></i> New Task
+        </b-button>
+      </b-col>
     </b-row>
     <b-row v-if="tasks.length === 0 || tasksForGroup.length === 0">
       <b-col class="text-center mb-3">
