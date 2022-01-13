@@ -9,7 +9,8 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "server": "nodemon server.js --ignore 'client/'",
     "start": "node server.js",
-    "prod": "export NODE_ENV='production' && npm run server"
+    "prod": "export NODE_ENV='production' && npm run server",
+    "test": "jest"
   },
   "main": "server.js",
   "dependencies": {
@@ -29,7 +30,11 @@
     "validator": "^13.1.17"
   },
   "devDependencies": {
+    "@babel/core": "^7.16.7",
+    "@babel/preset-env": "^7.16.8",
+    "babel-jest": "^27.4.6",
     "concurrently": "^5.2.0",
+    "jest": "^27.4.7",
     "nodemon": "^2.0.4",
     "standard": "*"
   },
