@@ -5,7 +5,7 @@ import Item from '../../models/item.js'
 const router = express.Router()
 
 router.get('/', async (req, res) => {
-  passport.authenticate('jwt', {session: false}, async (err, user, info) => {
+  passport.authenticate('jwt', { session: false }, async (_err, user, info) => {
     if (!user) res.status(403).send()
     try {
       const items = await Item.find({
@@ -23,7 +23,7 @@ router.get('/', async (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-  passport.authenticate('jwt', {session: false}, async (err, user, info) => {
+  passport.authenticate('jwt', { session: false }, async (_err, user, info) => {
     if (!user) res.status(403).send()
     const newItem = new Item({
       description: req.body.description,
@@ -40,7 +40,7 @@ router.post('/', async (req, res) => {
 })
 
 router.put('/:id', async (req, res) => {
-  passport.authenticate('jwt', {session: false}, async (err, user, info) => {
+  passport.authenticate('jwt', { session: false }, async (_err, user, info) => {
     if (!user) res.status(403).send()
     const { id } = req.params
     try {
@@ -59,7 +59,7 @@ router.put('/:id', async (req, res) => {
 })
 
 router.delete('/:id', async (req, res) => {
-  passport.authenticate('jwt', {session: false}, async (err, user, info) => {
+  passport.authenticate('jwt', { session: false }, async (_err, user, info) => {
     if (!user) res.status(403).send()
     const { id } = req.params
     try {

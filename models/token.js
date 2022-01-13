@@ -16,6 +16,6 @@ const TokenSchema = new mongoose.Schema({
     default: Date.now,
     expires: 43200
   }
-});
+})
 
-export default mongoose.model('Token', TokenSchema);
+export default mongoose.model('Token', TokenSchema)

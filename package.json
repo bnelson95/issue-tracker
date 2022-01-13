@@ -30,9 +30,15 @@
   },
   "devDependencies": {
     "concurrently": "^5.2.0",
-    "nodemon": "^2.0.4"
+    "nodemon": "^2.0.4",
+    "standard": "*"
   },
   "keywords": [],
   "license": "ISC",
-  "type": "module"
+  "type": "module",
+  "standard": {
+    "ignore": [
+      "**/client/dist/js/"
+    ]
+  }
 }

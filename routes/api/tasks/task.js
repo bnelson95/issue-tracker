@@ -1,10 +1,10 @@
-import express from 'express';
-import passport from "passport";
-import TaskGroup from '../../../models/tasks/task-group.js';
-import Task from "../../../models/tasks/task.js";
+import express from 'express'
+import passport from 'passport'
+import TaskGroup from '../../../models/tasks/task-group.js'
+import Task from '../../../models/tasks/task.js'
 
-const { Router } = express;
-const router = Router();
+const { Router } = express
+const router = Router()
 
 // put these helper methods somewhere?
 const getGroupIdsForUser = async (userId) => {
@@ -37,18 +37,19 @@ const isValidGroupForUser = async (groupId, userId) => {
 }
 
 router.get('/', async (req, res) => {
-  passport.authenticate('jwt', { session: false }, async (err, user, info) => {
-    if (!user) return res.status(403).send();
+  passport.authenticate('jwt', { session: false }, async (_err, user, info) => {
+    if (!user) return res.status(403).send()
     await getTasksForUserGroups(user)
       .then(tasks => res.status(200).send({ tasks }))
       .catch(err => res.status(500).send(err))
-  })(req, res);
-});
+  })(req, res)
+})
 
 router.post('/', async (req, res) => {
-  passport.authenticate('jwt', { session: false }, async (err, user, info) => {
-    if (!user || !await isValidGroupForUser(req.body.group, user.id))
+  passport.authenticate('jwt', { session: false }, async (_err, user, info) => {
+    if (!user || !await isValidGroupForUser(req.body.group, user.id)) {
       return res.status(403).send()
+    }
     const doc = {
       title: req.body.title,
       description: req.body.description,
@@ -59,30 +60,32 @@ router.post('/', async (req, res) => {
     new Task(doc).save()
       .then(task => res.status(200).send({ task }))
       .catch(err => res.status(500).send(err))
-  })(req, res);
+  })(req, res)
 })
 
 router.get('/:id', async (req, res) => {
-  passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+  passport.authenticate('jwt', { session: false }, async (_err, user, info) => {
     if (!user) return res.status(403).send()
     await Task.findById(req.params.id)
       .then(async task => {
-        if (await isValidGroupForUser(task.group, user.id))
+        if (await isValidGroupForUser(task.group, user.id)) {
           return res.status(200).send({ task: task })
-        else
+        } else {
           return res.status(403).send()
+        }
       })
       .catch(err => res.status(500).send(err))
   })(req, res)
-});
+})
 
 router.put('/:id', async (req, res) => {
-  passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+  passport.authenticate('jwt', { session: false }, async (_err, user, info) => {
     if (!user) return res.status(403).send()
     await Task.findById(req.params.id)
       .then(async task => {
-        if (!await isValidGroupForUser(task.group, user.id))
+        if (!await isValidGroupForUser(task.group, user.id)) {
           return res.status(403).send()
+        }
         // TODO make this better
         task.title = req.body.title
         task.description = req.body.description
@@ -97,19 +100,19 @@ router.put('/:id', async (req, res) => {
       })
       .catch(err => res.status(500).send(err))
   })(req, res)
-});
+})
 
 router.delete('/:id', async (req, res) => {
-  passport.authenticate('jwt', { session: false }, async (err, user, info) => {
+  passport.authenticate('jwt', { session: false }, async (_err, user, info) => {
     if (!user) return res.status(403).send()
     const conditions = {
       _id: req.params.id,
       createdBy: user.id
     }
     await Task.deleteOne(conditions)
-      .then(_ => res.status(200).send("success"))
+      .then(_ => res.status(200).send('success'))
       .catch(err => res.status(500).send(err))
   })(req, res)
-});
+})
 
-export default router;
+export default router

@@ -19,13 +19,13 @@ const UserSchema = new mongoose.Schema({
     default: Date.now
   },
   passwordResetToken: {
-    type: String, 
-    default: ""
+    type: String,
+    default: ''
   },
   passwordResetExpires: {
     type: Date,
-    default: Date("2020/10/31")
-  },
-});
+    default: Date('2020/10/31')
+  }
+})
 
-export default mongoose.model('User', UserSchema);
+export default mongoose.model('User', UserSchema)

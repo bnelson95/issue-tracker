@@ -9,10 +9,12 @@ import { store } from './store'
 
 Vue.config.productionTip = false
 
-new Vue({
+const vue = new Vue({
   el: '#app',
   router,
   store,
   components: { App },
   template: '<App/>'
 })
+
+export default vue
