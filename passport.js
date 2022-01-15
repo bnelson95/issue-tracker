@@ -20,4 +20,4 @@ const config = (passport) => {
   )
 }
 
-export default { config }
+export { config }
