@@ -128,7 +128,6 @@ test('Register then attempt another Register with the same email: Expects error'
     })
 })
 
-
 // LOGIN ------------------------------------------------------------------------------------------
 
 const LOGIN_VALID = {
@@ -149,9 +148,9 @@ async function login (app = initExpress()) {
     .expect(200)
     .then((response) => {
       expect(response.body.token).toBeTruthy()
-      expect(response.get("Set-Cookie")[0]).toContain('token=')
-      expect(response.get("Set-Cookie")[0]).toContain('Path=/')
-      expect(response.get("Set-Cookie")[0]).toContain('HttpOnly')
+      expect(response.get('Set-Cookie')[0]).toContain('token=')
+      expect(response.get('Set-Cookie')[0]).toContain('Path=/')
+      expect(response.get('Set-Cookie')[0]).toContain('HttpOnly')
       token = response.body.token
     })
   return token
