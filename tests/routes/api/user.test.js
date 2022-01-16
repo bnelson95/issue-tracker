@@ -3,11 +3,15 @@ import request from 'supertest'
 import mongoose from 'mongoose'
 
 import { initExpress } from '../../../express'
+import { TEST_RUN_MONGO_URI } from '../../../config.js'
 
 beforeEach((done) => {
-  mongoose.connect('mongodb://localhost:27017/JestDB',
-    { useNewUrlParser: true, useUnifiedTopology: true },
-    () => done())
+  mongoose.connect(TEST_RUN_MONGO_URI, {
+    useNewUrlParser: true,
+    useCreateIndex: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false
+  }, () => done())
 })
 
 afterEach((done) => {
