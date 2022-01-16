@@ -149,7 +149,9 @@ async function login (app = initExpress()) {
     .expect(200)
     .then((response) => {
       expect(response.body.token).toBeTruthy()
-      // TODO check cookie
+      expect(response.get("Set-Cookie")[0]).toContain('token=')
+      expect(response.get("Set-Cookie")[0]).toContain('Path=/')
+      expect(response.get("Set-Cookie")[0]).toContain('HttpOnly')
       token = response.body.token
     })
   return token
