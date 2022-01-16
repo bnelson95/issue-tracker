@@ -61,7 +61,7 @@ const REGISTER_NOT_MATCHING_PASSWORDS = {
   password2: PASSWORD2
 }
 
-test('POST /api/user/register: No name: Error', async () => {
+test('Attempt register with no name: Expects error', async () => {
   await request(initExpress())
     .post('/api/user/register')
     .send(REGISTER_NO_NAME)
@@ -71,7 +71,7 @@ test('POST /api/user/register: No name: Error', async () => {
     })
 })
 
-test('POST /api/user/register: No email: Error', async () => {
+test('Attempt register with no email: Expects error', async () => {
   await request(initExpress())
     .post('/api/user/register')
     .send(REGISTER_NO_EMAIL)
@@ -81,7 +81,7 @@ test('POST /api/user/register: No email: Error', async () => {
     })
 })
 
-test('POST /api/user/register: Invalid email: Error', async () => {
+test('Attempt register with invalid email: Expects error', async () => {
   await request(initExpress())
     .post('/api/user/register')
     .send(REGISTER_INVALID_EMAIL)
@@ -91,7 +91,7 @@ test('POST /api/user/register: Invalid email: Error', async () => {
     })
 })
 
-test('POST /api/user/register: Non-matching passwords: Error', async () => {
+test('Attempt register with non-matching passwords: Expects error', async () => {
   await request(initExpress())
     .post('/api/user/register')
     .send(REGISTER_NOT_MATCHING_PASSWORDS)
@@ -101,8 +101,8 @@ test('POST /api/user/register: Non-matching passwords: Error', async () => {
     })
 })
 
-test('POST /api/user/register: Valid input: Success', async () => {
-  await request(initExpress())
+async function register (app = initExpress()) {
+  await request(app)
     .post('/api/user/register')
     .send(REGISTER_VALID)
     .expect(200)
@@ -110,5 +110,89 @@ test('POST /api/user/register: Valid input: Success', async () => {
       expect(response.body.user.name).toBe(NAME)
       expect(response.body.user.email).toBe(EMAIL)
       expect(response.body.user.password).not.toBe(PASSWORD)
+    })
+}
+
+test('Register: Expects success', async () => {
+  await register()
+})
+
+test('Register then attempt another Register with the same email: Expects error', async () => {
+  await register()
+  await request(initExpress())
+    .post('/api/user/register')
+    .send(REGISTER_VALID)
+    .expect(200)
+    .then((response) => {
+      expect(response.body.errors.email).toBe('Email already exists')
+    })
+})
+
+
+// LOGIN ------------------------------------------------------------------------------------------
+
+const LOGIN_VALID = {
+  email: EMAIL,
+  password: PASSWORD
+}
+
+const LOGIN_WRONG_PASSWORD = {
+  email: EMAIL,
+  password: PASSWORD2
+}
+
+async function login (app = initExpress()) {
+  let token = ''
+  await request(app)
+    .post('/api/user/login')
+    .send(LOGIN_VALID)
+    .expect(200)
+    .then((response) => {
+      expect(response.body.token).toBeTruthy()
+      // TODO check cookie
+      token = response.body.token
+    })
+  return token
+}
+
+test('Register then attempt login with incorrect password: Expects error', async () => {
+  await register()
+  await request(initExpress())
+    .post('/api/user/login')
+    .send(LOGIN_WRONG_PASSWORD)
+    .expect(200)
+    .then((response) => {
+      expect(response.body.errors.password).toBe('Password incorrect')
+    })
+})
+
+test('Register then login: Expects success', async () => {
+  await register()
+  await login()
+})
+
+test('Register, login, then logout: Expects success', async () => {
+  await register()
+  await login()
+  await request(initExpress())
+    .get('/api/user/logout')
+    .expect(200)
+    .then((response) => {
+      expect(response.body.success).toBeTruthy()
+    })
+})
+
+test('Get tasks: Expects success', async () => {
+  const app = initExpress()
+  await register(app)
+  const token = await login(app)
+  expect(token).toBeTruthy()
+  await request(app)
+    .get('/api/task')
+    .set('Cookie', `token=${token};`)
+    .set('Content-Type', 'application/json')
+    .expect(200)
+    .then((response) => {
+      expect(response.body.tasks).toStrictEqual([])
     })
 })
