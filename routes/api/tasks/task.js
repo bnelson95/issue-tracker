@@ -94,6 +94,7 @@ router.put('/:id', async (req, res) => {
         task.group = req.body.group
         task.tags = req.body.tags
         task.links = req.body.links
+        task.dueOn = req.body.dueOn
         task.changedOn = Date.now()
         task.save()
           .then(newTask => res.status(200).send({ task: newTask }))

@@ -34,6 +34,7 @@
         </single-select-control>
         <status-control :task="task" :input="value => task.status = value" />
         <priority-control :task="task" :input="value => task.priority = value" />
+        <date-control title="Due Date" :value="task.dueOn" @input="value => task.dueOn = value" />
         <tag-control title="Tags" :value="task.tags" @input="value => task.tags = value" />
         <links-control title="Links" :links="task.links" @input="value => task.links = value" />
       </b-col>
@@ -51,6 +52,7 @@ import SingleSelectControl from '@/components/controls/SingleSelectControl.vue'
 import EditorControl from '@/components/controls/EditorControl.vue'
 import StatusControl from '@/components/Task/controls/StatusControl.vue'
 import PriorityControl from '@/components/Task/controls/PriorityControl.vue'
+import DateControl from '@/components/controls/DateControl.vue'
 export default {
   name: 'EditTask',
   components: {
@@ -60,7 +62,8 @@ export default {
     SingleSelectControl,
     StatusControl,
     PriorityControl,
-    EditorControl
+    EditorControl,
+    DateControl
   },
   data () {
     return {

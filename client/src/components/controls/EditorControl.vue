@@ -2,7 +2,7 @@
   <control-wrapper :title="title">
     <template v-slot:control-content>
       <editor-menu-bar :editor="editor" v-slot="{ commands, isActive }">
-        <div class="menubar m-1">
+        <div class="menubar">
           <b-button-group class="m-1">
             <b-button variant="light" :class="{ 'active': isActive.bold() }" @click="commands.bold">
               <i class="fas fa-bold"></i>

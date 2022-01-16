@@ -11,7 +11,7 @@
               v-bind="inputAttrs"
               v-on="inputHandlers"
               :placeholder="placeholder || 'New tag - Press enter to add'"
-              class="form-control">
+              class="form-control p-1">
             </b-form-input>
             <datalist id="my-list-id">
               <option>TODO</option>
@@ -20,14 +20,14 @@
               <b-button class="rounded" variant="light" @click="addTag()">Add</b-button>
             </b-input-group-append>
           </b-input-group>
-          <div class="p-1" v-if="tags.length > 0">
+          <div v-if="tags.length > 0">
             <b-form-tag
               v-for="tag in tags"
               @remove="removeTag(tag)"
               :key="tag"
               :title="tag"
               :variant="tagVariant"
-              class="m-1 px-2 py-1">
+              class="mt-2 mr-2 px-2 py-1">
               {{ tag }}
             </b-form-tag>
           </div>

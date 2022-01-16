@@ -4,7 +4,7 @@
       <span class="title">{{ title }}</span>
       <span class="float-right"><i v-if="icon" :class="'fas ' + icon"></i></span>
     </div>
-    <div class="">
+    <div class="m-1">
       <slot name="control-content"></slot>
     </div>
     <div v-if="error">

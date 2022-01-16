@@ -14,8 +14,7 @@ const TaskSchema = new Schema({
     default: Date.now
   },
   dueOn: {
-    type: Date,
-    default: Date.now
+    type: Date
   },
   priority: {
     type: String,

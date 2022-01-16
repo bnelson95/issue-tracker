@@ -1,7 +1,7 @@
 <template>
   <control-wrapper :title="title" icon="fa-link">
     <template v-slot:control-content>
-      <b-button-group v-for="link in links" :key="link.ref" class="d-flex m-1">
+      <b-button-group v-for="link in links" :key="link.ref" class="d-flex mb-2">
         <b-button @click="openLink(link.ref)" variant="light" class="w-100 text-left">
           <i class="mr-1 fas fa-external-link-alt"></i> {{ link.title }}
         </b-button>
@@ -10,7 +10,7 @@
           <b-dropdown-item @click="selectLinkForDelete(link)">Delete</b-dropdown-item>
         </b-dropdown>
       </b-button-group>
-      <b-button v-b-modal.modal-add-link variant="light" class="m-1">Add</b-button>
+      <b-button v-b-modal.modal-add-link variant="light">Add</b-button>
 
       <b-modal title="Add Link" id="modal-add-link" @ok="addLink">
         <input-control title="Link" type="url" :value="newRef" @input="value => newRef = value" />
