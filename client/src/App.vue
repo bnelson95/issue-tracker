@@ -111,9 +111,6 @@ button:focus {
   border: 0;
   box-shadow: 0 0.2rem 0.9rem rgba(0, 0, 0, 0.1) !important;
 }
-.btn, button {
-  border: 0px solid !important;
-}
 .shadow-z {
   box-shadow: 0 0.2rem 0.9rem rgba(0, 0, 0, 0.1) !important;
 }
