@@ -216,7 +216,7 @@ export default {
     getNextMonday () {
       let prevMonday = new Date(this.getPreviousMonday())
       prevMonday.setDate(prevMonday.getDate() + 7)
-      return prevMonday
+      return prevMonday.toString()
     },
     selectGroup (group) {
       if (group !== '') {

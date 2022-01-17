@@ -1,5 +1,8 @@
 <template>
-  <b-card no-body header-bg-variant="white" header-class="py-2 px-3">
+  <b-card no-body 
+    header-class="py-2 px-3"
+    :header-bg-variant="isToday ? 'primary' : ''"
+    :header-text-variant="isToday ? 'white' : ''">
     <template v-slot:header>
       <b-row no-gutters >
         <b-col class="text-nowrap overflow-hidden">
@@ -23,8 +26,20 @@ export default {
   name: 'TaskDay',
   props: {
     title: { type: String },
-    number: { type: Number },
+    date: { type: Date },
     tasks: { type: Array }
+  },
+  computed: {
+    number: function () {
+      return this.date.getDate()
+    },
+    isToday: function () {
+      const today = new Date()
+      const isToday = this.date.getDate() == today.getDate() &&
+        this.date.getMonth() == today.getMonth() &&
+        this.date.getFullYear() == today.getFullYear()
+      return isToday
+    }
   }
 }
 </script>
