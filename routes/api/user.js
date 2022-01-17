@@ -35,28 +35,16 @@ router.post('/register', (req, res) => {
   User.findOne({ email: req.body.email })
     .then(user => {
       if (user) {
-        return res.json({
-          errors: {
-            email: 'Email already exists'
-          }
-        })
+        return res.json({ errors: { email: 'Email already exists' } })
       }
       const newUser = new User({
         name: req.body.name,
         email: req.body.email,
-        password: req.body.password
+        password: bcryptjs.hashSync(req.body.password)
       })
-
-      // Hash password before saving in database
-      bcryptjs.genSalt(10, (_err, salt) => {
-        bcryptjs.hash(newUser.password, salt, (err, hash) => {
-          if (err) throw err
-          newUser.password = hash
-          newUser.save()
-            .then(user => res.json({ user }))
-            .catch(err => console.log(err))
-        })
-      })
+      newUser.save()
+        .then(user => res.json({ user }))
+        .catch(err => console.log(err))
     })
 })
 
@@ -79,42 +67,17 @@ router.post('/login', (req, res) => {
   const email = req.body.email
   const password = req.body.password
   // Find user by email
-  User.findOne({ email }).then(user => {
-    // Check if user exists
+  User.findOne({ email }).then(async user => {
     if (!user) {
-      return res.json({
-        errors: {
-          email: 'Email not found'
-        }
-      })
+      return res.json({ errors: { email: 'Email not found' } })
     }
-    // Check password
-    bcryptjs.compare(password, user.password).then(isMatch => {
-      if (isMatch) {
-        // User matched
-        // Create JWT Payload
-        const payload = {
-          id: user.id,
-          name: user.name
-        }
-        // Sign token
-        jsonwebtoken.sign(
-          payload,
-          SECRET,
-          { expiresIn: 31556926 }, // 1 year in seconds
-          (_err, token) => {
-            res.cookie('token', token, { httpOnly: true, path: '/' })
-            res.json({ token })
-          }
-        )
-      } else {
-        return res.json({
-          errors: {
-            password: 'Password incorrect'
-          }
-        })
-      }
-    })
+    if (!await bcryptjs.compare(password, user.password)) {
+      return res.json({ errors: { password: 'Password incorrect' } })
+    }
+    const payload = { id: user.id, name: user.name }
+    const token = jsonwebtoken.sign(payload, SECRET, { expiresIn: 31556926 })
+    res.cookie('token', token, { httpOnly: true, path: '/' })
+    return res.json({ token })
   })
 })
 
