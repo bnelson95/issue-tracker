@@ -56,85 +56,107 @@
         </b-list-group-item>
       </b-list-group>
     </b-sidebar>
-    <b-row class="my-4 align-items-center">
+    <b-row class="mt-4 my-3 align-items-center">
+      <b-col class="col-auto">
+        <b-form-radio-group
+          id="btn-radios-1"
+          v-model="selected"
+          :options="options"
+          name="radios-btn-default"
+          buttons
+          button-variant="dark">
+        </b-form-radio-group>
+      </b-col>
       <b-col class="text-truncate">
-        <h4 class="mx-1 my-0">{{ selectedGroup.title || "All Tasks" }}</h4>
+        <h4 class="mx-1 my-0 text-center">{{ selectedGroup.title || "All Tasks" }}</h4>
       </b-col>
       <b-col class="col-auto">
-        <b-button v-b-toggle.sidebar-1 class="" variant="light">
+        <b-button v-b-toggle.sidebar-1 class="" variant="dark">
           <i class="mx-1 fas fa-layer-group"></i> Groups
         </b-button>
       </b-col>
     </b-row>
-    <b-row class="m-0 mb-4 bg-white rounded shadow-z">
-      <b-col class="p-0">
-        <b-button class="m-1" @click="newTask()" variant="primary">
-          <i class="mr-1 fas fa-plus"></i> New Task
-        </b-button>
-      </b-col>
-    </b-row>
-    <b-row v-if="tasks.length === 0 || tasksForGroup.length === 0">
-      <b-col class="text-center mb-3">
-        <p v-if="tasks.length === 0" class="my-3">Looks like you don't have any tasks yet.</p>
-        <p v-if="tasksForGroup.length === 0" class="my-3">Create a new task to get started!</p>
-      </b-col>
-    </b-row>
-    <b-row v-if="tasksForGroup.length > 0">
-      <b-col sm="12" md="4" lg="4" xl="4">
-        <task-group title="Not Started"
-          class="mb-3"
-          icon="fa-hourglass-start"
-          :tasks="notStartedTasks"
-          cardBorderVariant="primary"
-          rightButtonVariant="info"
-          rightButtonText="Start"
-          rightButtonIcon="fa-hourglass-half"
-          :rightButtonClick="(task) => startTask(task)" />
-      </b-col>
-      <b-col sm="12" md="4" lg="4" xl="4">
-        <task-group title="In Progress"
-          class="mb-3"
-          icon="fa-hourglass-half"
-          :tasks="inProgressTasks"
-          cardBorderVariant="info"
-          leftButtonVariant="primary"
-          leftButtonText="Revert"
-          leftButtonIcon="fa-hourglass-start"
-          :leftButtonClick="(task) => revertTask(task)"
-          rightButtonVariant="success"
-          rightButtonText="Done"
-          rightButtonIcon="fa-hourglass-end"
-          :rightButtonClick="(task) => completeTask(task)" />
-      </b-col>
-      <b-col sm="12" md="4" lg="4" xl="4">
-        <task-group title="Completed"
-          class="mb-3"
-          icon="fa-hourglass-end"
-          :tasks="completedTasks"
-          cardBorderVariant="success"
-          leftButtonVariant="info"
-          leftButtonText="Revert"
-          leftButtonIcon="fa-hourglass-half"
-          :leftButtonClick="(task) => startTask(task)" />
-      </b-col>
-    </b-row>
+    <b-container v-if="selected === 'columns'" fluid class="m-0 p-0">
+      <b-row class="m-0 mb-3">
+        <b-col class="p-0">
+          <b-button class="" @click="newTask()" variant="primary">
+            <i class="mr-1 fas fa-plus"></i> New Task
+          </b-button>
+        </b-col>
+      </b-row>
+      <b-row v-if="tasks.length === 0 || tasksForGroup.length === 0">
+        <b-col class="text-center mb-3">
+          <p v-if="tasks.length === 0" class="my-3">Looks like you don't have any tasks yet.</p>
+          <p v-if="tasksForGroup.length === 0" class="my-3">Create a new task to get started!</p>
+        </b-col>
+      </b-row>
+      <b-row v-if="tasksForGroup.length > 0">
+        <b-col sm="12" md="4" lg="4" xl="4">
+          <task-group title="Not Started"
+            class="mb-3"
+            icon="fa-hourglass-start"
+            :tasks="notStartedTasks"
+            cardBorderVariant="primary"
+            rightButtonVariant="info"
+            rightButtonText="Start"
+            rightButtonIcon="fa-hourglass-half"
+            :rightButtonClick="(task) => startTask(task)" />
+        </b-col>
+        <b-col sm="12" md="4" lg="4" xl="4">
+          <task-group title="In Progress"
+            class="mb-3"
+            icon="fa-hourglass-half"
+            :tasks="inProgressTasks"
+            cardBorderVariant="info"
+            leftButtonVariant="primary"
+            leftButtonText="Revert"
+            leftButtonIcon="fa-hourglass-start"
+            :leftButtonClick="(task) => revertTask(task)"
+            rightButtonVariant="success"
+            rightButtonText="Done"
+            rightButtonIcon="fa-hourglass-end"
+            :rightButtonClick="(task) => completeTask(task)" />
+        </b-col>
+        <b-col sm="12" md="4" lg="4" xl="4">
+          <task-group title="Completed"
+            class="mb-3"
+            icon="fa-hourglass-end"
+            :tasks="completedTasks"
+            cardBorderVariant="success"
+            leftButtonVariant="info"
+            leftButtonText="Revert"
+            leftButtonIcon="fa-hourglass-half"
+            :leftButtonClick="(task) => startTask(task)" />
+        </b-col>
+      </b-row>
+    </b-container>
+    <b-container v-if="selected === 'weekly'" fluid class="m-0 p-0">
+      <h6 class="mx-2">Due This Week</h6>
+      <task-week
+        :tasks="tasksForGroup"
+        :startDate="getPreviousMonday()" />
+      <h6 class="mx-2 mt-3">Due Next Week</h6>
+      <task-week
+        :tasks="tasksForGroup"
+        :startDate="getNextMonday()" />
+    </b-container>
   </b-container>
 </template>
 
 <script>
 import TaskService from '@/services/Tasks/TaskService'
 import TaskGroupService from '@/services/Tasks/TaskGroupService'
-//import SplitSideContainer from '../SplitSideContainer.vue'
 import InputControl from '@/components/controls/InputControl.vue'
 import TagControl from '@/components/controls/TagControl.vue'
 import TaskGroup from './TaskGroup.vue'
+import TaskWeek from './TaskWeek.vue'
 export default {
   name: 'Tasks',
   components: {
-    //SplitSideContainer,
     InputControl,
     TagControl,
-    TaskGroup
+    TaskGroup,
+    TaskWeek
   },
   data () {
     return {
@@ -144,7 +166,12 @@ export default {
       newTaskGroupTitle: '',
       newTaskGroupColor: '',
       shareWith: '',
-      newTaskSharedWith: []
+      newTaskSharedWith: [],
+      selected: 'columns',
+      options: [
+        { html: '<i class="fas fa-columns">', value: 'columns' },
+        { html: '<i class="fas fa-grip-horizontal">', value: 'weekly' }
+      ]
     }
   },
   computed: {
@@ -179,6 +206,18 @@ export default {
     this.selectGroup(group || '')
   },
   methods: {
+    getPreviousMonday () {
+      let target = 1 // Monday
+      let date = new Date()
+      date.setDate(date.getDate() - ( date.getDay() == target ? 7 : (date.getDay() + (7 - target)) % 7 ))
+      return date.toString()
+    },
+    getNextMonday () {
+      let target = 1 // Monday
+      let date = new Date()
+      date.setDate(date.getDate() + ( date.getDay() == target ? 7 : (date.getDay() + (7 + target)) % 7 ))
+      return date.toString()
+    },
     selectGroup (group) {
       if (group !== '') {
         localStorage.setItem('selected-group', group._id)

@@ -1,6 +1,5 @@
 <template>
   <b-card no-body
-    class="border-0 shadow-z"
     header-bg-variant="white"
     :header-text-variant="cardBorderVariant">
     <template v-slot:header>
