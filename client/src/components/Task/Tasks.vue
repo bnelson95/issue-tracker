@@ -208,15 +208,15 @@ export default {
   methods: {
     getPreviousMonday () {
       let target = 1 // Monday
-      let date = new Date()
-      date.setDate(date.getDate() - ( date.getDay() == target ? 7 : (date.getDay() + (7 - target)) % 7 ))
+      let date = new Date(Date.now())
+      let daysPastMonday = date.getDay() == target ? 0 : 8 - target
+      date.setDate(date.getDate() - daysPastMonday)
       return date.toString()
     },
     getNextMonday () {
-      let target = 1 // Monday
-      let date = new Date()
-      date.setDate(date.getDate() + ( date.getDay() == target ? 7 : (date.getDay() + (7 + target)) % 7 ))
-      return date.toString()
+      let prevMonday = new Date(this.getPreviousMonday())
+      prevMonday.setDate(prevMonday.getDate() + 7)
+      return prevMonday
     },
     selectGroup (group) {
       if (group !== '') {
