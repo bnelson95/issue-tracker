@@ -1,7 +1,7 @@
 <template>
   <control-wrapper :title="title">
     <template v-slot:control-content>
-      <b-dropdown variant="white" class="text-left">
+      <b-dropdown variant="light" class="text-left">
         <template v-slot:button-content>
           <slot name="button-content"></slot>
         </template>
