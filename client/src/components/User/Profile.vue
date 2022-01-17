@@ -17,10 +17,10 @@
         <input-control title="Name" :value="newName" :error="profileErrors.name" @input="value => newName = value" />
         <b-row>
           <b-col>
-            <b-button block class="shadow-z" variant="primary" :disabled="!canSaveProfile" @click="updateProfile">Save Profile</b-button>
+            <b-button block variant="primary" :disabled="!canSaveProfile" @click="updateProfile">Save Profile</b-button>
           </b-col>
           <b-col>
-            <b-button block class="shadow-z" variant="secondary" :disabled="!canCancelSaveProfile" @click="cancelProfileChange">Cancel</b-button>
+            <b-button block variant="secondary" :disabled="!canCancelSaveProfile" @click="cancelProfileChange">Cancel</b-button>
           </b-col>
         </b-row>
       </b-col>
@@ -39,10 +39,10 @@
         <input-control title="Confirm New Password" type="password" :value="newPassword2" :error="passwordErrors.newPassword2" @input="value => newPassword2 = value" />
         <b-row>
           <b-col>
-            <b-button block class="shadow-z" variant="primary" :disabled="!canChangePassword" @click="updatePassword">Update Password</b-button>
+            <b-button block variant="primary" :disabled="!canChangePassword" @click="updatePassword">Update Password</b-button>
           </b-col>
           <b-col>
-            <b-button block class="shadow-z" variant="secondary" :disabled="!canCancelChangePassword" @click="cancelPasswordChange">Cancel</b-button>
+            <b-button block variant="secondary" :disabled="!canCancelChangePassword" @click="cancelPasswordChange">Cancel</b-button>
           </b-col>
         </b-row>
       </b-col>

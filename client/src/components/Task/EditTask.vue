@@ -1,30 +1,28 @@
 <template>
-  <b-container fluid>
-    <b-row>
-      <b-col class="m-3 shadow-z rounded">
-        <b-row class="bg-white rounded">
-          <b-col cols="8" class="p-1">
-            <b-button @click="$router.push({ name: 'Tasks' })" variant="secondary" class="m-0">
-              <i class="mr-1 fas fa-chevron-left"></i> Tasks
-            </b-button>
-            <b-button class="mx-1" variant="primary" @click="updateTask">Save</b-button>
-          </b-col>
-          <b-col cols="4" class="p-1">
-            <b-button v-b-modal.delete-confirm variant="danger" class="float-right">Delete</b-button>
-            <b-modal id="delete-confirm" title="Delete Task">
-              <p>Are you sure you want to delete this task? This action cannot be undone.</p>
-              <template #modal-footer="{ cancel }">
-                <b-button @click="cancel">Cancel</b-button>
-                <b-button @click="deleteTask" variant="danger">Delete</b-button>
-              </template>
-            </b-modal>
-          </b-col>
-        </b-row>
+  <b-container>
+    <b-row class="mt-4 mb-3">
+      <b-col cols="8">
+        <b-button-group>
+          <b-button @click="$router.push({ name: 'Tasks' })" variant="dark">
+            <i class="mr-1 fas fa-chevron-left"></i> Tasks
+          </b-button>
+          <b-button variant="primary" @click="updateTask">Save</b-button>
+        </b-button-group>
+      </b-col>
+      <b-col cols="4">
+        <b-button v-b-modal.delete-confirm variant="danger" class="float-right">Delete</b-button>
+        <b-modal id="delete-confirm" title="Delete Task">
+          <p>Are you sure you want to delete this task? This action cannot be undone.</p>
+          <template #modal-footer="{ cancel }">
+            <b-button @click="cancel">Cancel</b-button>
+            <b-button @click="deleteTask" variant="danger">Delete</b-button>
+          </template>
+        </b-modal>
       </b-col>
     </b-row>
     <b-row>
       <b-col sm="12" md="7" lg="8">
-        <h3 class="editor mb-3 p-2 rounded bg-white shadow-z" contenteditable placeholder="Title" v-text="task.title" @blur="onTitleEdit"></h3>
+        <h3 class="editor mb-3 p-2 rounded border bg-white" contenteditable placeholder="Title" v-text="task.title" @blur="onTitleEdit"></h3>
         <editor-control title="Description" :value="task.description" :input="value => task.description = value" />
       </b-col>
       <b-col sm="12" md="5" lg="4">

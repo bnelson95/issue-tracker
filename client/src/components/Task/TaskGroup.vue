@@ -28,7 +28,6 @@
               </b-badge>
               </div>
             </div>
-            <!--<b-button-group class="d-flex m-2 rounded shadow-z">-->
             <b-row class="m-1" align-h="center">
               <b-col class="p-0">
                 <b-button v-if="leftButtonClick" block :variant="leftButtonVariant" @click="leftButtonClick(task)">

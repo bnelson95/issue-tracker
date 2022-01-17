@@ -91,7 +91,6 @@ button:focus {
   border-bottom: 3px solid;
   border-image-source: linear-gradient(90deg, goldenrod, skyblue);
   border-image-slice: 1;
-  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.25);
 }
 .nav-link {
     color: skyblue !important;
@@ -109,9 +108,6 @@ button:focus {
 .dropdown-menu {
   padding: 0;
   border: 0;
-  box-shadow: 0 0.2rem 0.9rem rgba(0, 0, 0, 0.1) !important;
-}
-.shadow-z {
   box-shadow: 0 0.2rem 0.9rem rgba(0, 0, 0, 0.1) !important;
 }
 .shadow-inset-z {

@@ -1,7 +1,7 @@
 <template>
   <b-container fluid="xl">
     <b-sidebar id="sidebar-1" title="Groups" shadow backdrop right>
-      <b-button-group class="d-flex rounded m-3 bg-white shadow-z">
+      <b-button-group class="d-flex rounded m-3 bg-white">
         <b-button @click="newTaskGroup()" variant="outline-secondary" class="m-0">
           <i class="mr-1 fas fa-plus"></i> <b>New Group</b>
         </b-button>
@@ -23,7 +23,7 @@
           <tag-control title="Share With" placeholder="User email" :value="newTaskSharedWith" @input="value => newTaskSharedWith = value" />
         </b-modal>
       </b-button-group>
-      <b-list-group class="m-3 shadow-z">
+      <b-list-group class="m-3">
         <b-list-group-item button
           :class="{ 'active':!selectedGroup, 'px-3 py-2':true }"
           @click="selectGroup('')"

@@ -1,5 +1,5 @@
 <template>
-  <div class="shadow-z mb-3 p-1 rounded bg-white">
+  <div class="mb-3 p-1 rounded bg-white border">
     <div class="bg-white rounded-top mx-2">
       <span class="title">{{ title }}</span>
       <span class="float-right"><i v-if="icon" :class="'fas ' + icon"></i></span>
