@@ -29,7 +29,7 @@ export default {
       type: String
     },
     value: {
-      type: String
+      type: Date
     }
   }
 }

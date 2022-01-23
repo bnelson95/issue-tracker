@@ -4,9 +4,8 @@
       <input-control title="Title" :value="newTaskTitle" @input="value => newTaskTitle = value" />
       <date-control title="Due Date" :value="newTaskDueOn" @input="value => newTaskDueOn = value" />
     </b-modal>
-    <b-modal title="Edit Task" id="edit-task-modal" @ok="saveTask" @cancel="clearAddTaskValues" @close="clearAddTaskValues">
+    <b-modal title="Edit Task" id="edit-task-modal" @ok="saveTask" @cancel="clearAddTaskValues" @hide="clearAddTaskValues">
       <input-control title="Title" :value="newTaskTitle" @input="value => newTaskTitle = value" />
-      <status-control :task="task" :input="value => task.status = value" />
       <date-control title="Due Date" :value="newTaskDueOn" @input="value => newTaskDueOn = value" />
     </b-modal>
     <b-row class="m-0">
@@ -28,7 +27,7 @@
               </span>
             </b-col>
             <b-col class="text-center col-auto">
-              <b-button @click="newTaskDueOn = day" v-b-modal.add-task-modal class="p-0 px-1 d-block" variant="primary">
+              <b-button @click="newTaskDueOn = new Date(day)" v-b-modal.add-task-modal class="p-0 px-1 d-block" variant="primary">
                 <i class="fas fa-plus"></i>
               </b-button>
             </b-col>
@@ -72,7 +71,7 @@ export default {
     return {
       newTaskTitle: '',
       newTaskGroup: '',
-      newTaskDueOn: '',
+      newTaskDueOn: undefined,
       selectedTask: undefined
     }
   },
@@ -90,28 +89,28 @@ export default {
       }
       const res = await TaskService.addTask(task)
       if (res.status === 200) {
-        this.tasks.push(task)
+        this.tasks.push(res.data.task)
       }
       this.clearAddTaskValues()
     },
     selectTaskForEdit (task) {
       this.selectedTask = task
       this.newTaskTitle = this.selectedTask.title
-      this.newTaskDueOn = this.selectedTask.dueOn
+      this.newTaskDueOn = new Date(this.selectedTask.dueOn)
     },
     async saveTask () {
       this.selectedTask.title = this.newTaskTitle
       this.selectedTask.dueOn = this.newTaskDueOn
       const res = await TaskService.updateTask(this.selectedTask)
       if (res.status === 200) {
-        let index = this.tasks.findIndex((task => task.id == this.selectedTask.id));
-        this.task[index] = this.selectedTask
+        let index = this.tasks.findIndex((task => task._id == this.selectedTask._id));
+        this.task[index] = res.data.newTask
       }
       this.clearAddTaskValues()
     },
     clearAddTaskValues () {
       this.newTaskTitle = ''
-      this.newTaskDueOn = ''
+      this.newTaskDueOn = undefined
     },
     getFirstMonday () {
       const firstDayOfMonth = new Date(this.year, this.month, 1)
