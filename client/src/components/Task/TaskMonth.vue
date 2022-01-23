@@ -1,5 +1,14 @@
 <template>
   <div>
+    <b-modal title="Add Task" id="add-task-modal" @ok="addTask" @cancel="clearAddTaskValues" @hide="clearAddTaskValues">
+      <input-control title="Title" :value="newTaskTitle" @input="value => newTaskTitle = value" />
+      <date-control title="Due Date" :value="newTaskDueOn" @input="value => newTaskDueOn = value" />
+    </b-modal>
+    <b-modal title="Edit Task" id="edit-task-modal" @ok="saveTask" @cancel="clearAddTaskValues" @close="clearAddTaskValues">
+      <input-control title="Title" :value="newTaskTitle" @input="value => newTaskTitle = value" />
+      <status-control :task="task" :input="value => task.status = value" />
+      <date-control title="Due Date" :value="newTaskDueOn" @input="value => newTaskDueOn = value" />
+    </b-modal>
     <b-row class="m-0">
       <b-col v-for="(day) in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']" 
         v-bind:key="day"
@@ -8,11 +17,10 @@
       </b-col>
     </b-row>
     <div class="rounded bg-white border">
-      <b-row v-for="week in getWeeks()" v-bind:key="week" class="m-0 border-bottom">
-        <b-col v-for="day in week" v-bind:key="day" 
-          class="border-right p-2 min-h-100"
+      <b-row v-for="week in getWeeks()" v-bind:key="week[0].getTime()" class="m-0 border-bottom">
+        <b-col v-for="day in week" v-bind:key="day.getTime()" class="border-right p-0"
           :class="{'text-secondary font-italic bg-light':day.getUTCMonth() !== month}">
-          <b-row>
+          <b-row class="p-2">
             <b-col class="text-nowrap overflow-hidden font-weight-bold">
               <span class="ml-1">
                 <span v-if="day.getUTCDate() === 1 && day.getUTCMonth() !== month">{{ day.toLocaleDateString('en-US', { month: 'short' }) }} </span>
@@ -20,16 +28,19 @@
               </span>
             </b-col>
             <b-col class="text-center col-auto">
-              <!-- <b-button class="p-0 px-1 d-block" variant="primary">
+              <b-button @click="newTaskDueOn = day" v-b-modal.add-task-modal class="p-0 px-1 d-block" variant="primary">
                 <i class="fas fa-plus"></i>
-              </b-button> -->
+              </b-button>
             </b-col>
           </b-row>
-          <div class="items">
-          <div v-for="task in getDueTasksForDay(day)" v-bind:key="task.id" class="mx-1">
-            {{ task.title || 'Untitled' }}
-          </div>
-          </div>
+          <b-list-group flush class="items">
+            <b-list-group-item button v-for="task in getDueTasksForDay(day)" v-bind:key="task.id" 
+              class="p-2"
+              v-b-modal.edit-task-modal
+              @click="selectTaskForEdit(task)">
+              {{ task.title || 'Untitled' }}
+            </b-list-group-item>
+          </b-list-group>
         </b-col>
       </b-row>
     </div>
@@ -37,6 +48,9 @@
 </template>
 
 <script>
+import InputControl from '@/components/controls/InputControl.vue'
+import DateControl from '@/components/controls/DateControl.vue'
+import TaskService from '@/services/Tasks/TaskService'
 import {
   nextMonday,
   isMonday,
@@ -50,12 +64,55 @@ import {
 } from 'date-fns'
 export default {
   name: 'TaskMonth',
+  components: {
+    InputControl,
+    DateControl,
+  },
+  data () {
+    return {
+      newTaskTitle: '',
+      newTaskGroup: '',
+      newTaskDueOn: '',
+      selectedTask: undefined
+    }
+  },
   props: {
     tasks: { type: Array },
     month: { type: Number },
     year: { type: Number },
   },
   methods: {
+    async addTask () {
+      const task = {
+        title: this.newTaskTitle,
+        dueOn: this.newTaskDueOn,
+        description: '',
+      }
+      const res = await TaskService.addTask(task)
+      if (res.status === 200) {
+        this.tasks.push(task)
+      }
+      this.clearAddTaskValues()
+    },
+    selectTaskForEdit (task) {
+      this.selectedTask = task
+      this.newTaskTitle = this.selectedTask.title
+      this.newTaskDueOn = this.selectedTask.dueOn
+    },
+    async saveTask () {
+      this.selectedTask.title = this.newTaskTitle
+      this.selectedTask.dueOn = this.newTaskDueOn
+      const res = await TaskService.updateTask(this.selectedTask)
+      if (res.status === 200) {
+        let index = this.tasks.findIndex((task => task.id == this.selectedTask.id));
+        this.task[index] = this.selectedTask
+      }
+      this.clearAddTaskValues()
+    },
+    clearAddTaskValues () {
+      this.newTaskTitle = ''
+      this.newTaskDueOn = ''
+    },
     getFirstMonday () {
       const firstDayOfMonth = new Date(this.year, this.month, 1)
       if (isMonday(firstDayOfMonth)) {

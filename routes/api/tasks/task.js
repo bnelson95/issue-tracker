@@ -55,6 +55,7 @@ router.post('/', async (req, res) => {
       description: req.body.description,
       createdBy: user.id,
       group: req.body.group,
+      dueOn: req.body.dueOn,
       sharedWith: []
     }
     new Task(doc).save()
