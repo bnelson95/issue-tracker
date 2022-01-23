@@ -134,7 +134,7 @@
       <h6 class="mx-2">Due This Week</h6>
       <task-week
         :tasks="tasksForGroup"
-        :startDate="getPreviousMonday()" />
+        :startDate="getThisMonday()" />
       <h6 class="mx-2 mt-3">Due Next Week</h6>
       <task-week
         :tasks="tasksForGroup"
@@ -172,7 +172,7 @@ import TagControl from '@/components/controls/TagControl.vue'
 import TaskGroup from './TaskGroup.vue'
 import TaskWeek from './TaskWeek.vue'
 import TaskMonth from './TaskMonth.vue'
-import { previousMonday, nextMonday } from 'date-fns'
+import { previousMonday, nextMonday, isWeekend } from 'date-fns'
 export default {
   name: 'Tasks',
   components: {
@@ -249,11 +249,14 @@ export default {
     this.selectGroup(group || '')
   },
   methods: {
-    getPreviousMonday () {
+    getThisMonday () {
+      if (isWeekend(Date.now())) {
+        return nextMonday(Date.now()).toString()
+      }
       return previousMonday(Date.now()).toString()
     },
     getNextMonday () {
-      return nextMonday(Date.now()).toString()
+      return nextMonday(new Date(this.getThisMonday())).toString()
     },
     selectNextMonth () {
       if (this.selectedMonth+1 > 11) {
