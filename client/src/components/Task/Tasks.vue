@@ -150,6 +150,7 @@ import InputControl from '@/components/controls/InputControl.vue'
 import TagControl from '@/components/controls/TagControl.vue'
 import TaskGroup from './TaskGroup.vue'
 import TaskWeek from './TaskWeek.vue'
+import { previousMonday, nextMonday } from 'date-fns'
 export default {
   name: 'Tasks',
   components: {
@@ -207,16 +208,10 @@ export default {
   },
   methods: {
     getPreviousMonday () {
-      let target = 1 // Monday
-      let date = new Date(Date.now())
-      let daysPastMonday = date.getDay() == target ? 0 : 8 - target
-      date.setDate(date.getDate() - daysPastMonday)
-      return date.toString()
+      return previousMonday(Date.now()).toString()
     },
     getNextMonday () {
-      let prevMonday = new Date(this.getPreviousMonday())
-      prevMonday.setDate(prevMonday.getDate() + 7)
-      return prevMonday.toString()
+      return nextMonday(Date.now()).toString()
     },
     selectGroup (group) {
       if (group !== '') {
