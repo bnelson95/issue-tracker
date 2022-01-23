@@ -140,6 +140,27 @@
         :tasks="tasksForGroup"
         :startDate="getNextMonday()" />
     </b-container>
+    <b-container v-if="selected === 'monthly'" fluid class="m-0 p-0">
+      <b-row class="mt-3 my-2 align-items-center">
+        <b-col class="col-auto">
+          <b-button variant="dark" @click="selectPrevMonth()">
+            <i class="fas fa-chevron-left mr-2"></i> {{ prevMonthName }}
+          </b-button>
+        </b-col>
+        <b-col class="text-truncate">
+          <h4 class="mx-1 my-0 text-center">{{ monthName }} {{ selectedYear }}</h4>
+        </b-col>
+        <b-col class="col-auto">
+          <b-button variant="dark" @click="selectNextMonth()">
+            {{ nextMonthName }} <i class="fas fa-chevron-right ml-2"></i>
+          </b-button>
+        </b-col>
+      </b-row>
+      <task-month
+        :tasks="tasksForGroup"
+        :month="selectedMonth"
+        :year="selectedYear" />
+    </b-container>
   </b-container>
 </template>
 
@@ -150,6 +171,7 @@ import InputControl from '@/components/controls/InputControl.vue'
 import TagControl from '@/components/controls/TagControl.vue'
 import TaskGroup from './TaskGroup.vue'
 import TaskWeek from './TaskWeek.vue'
+import TaskMonth from './TaskMonth.vue'
 import { previousMonday, nextMonday } from 'date-fns'
 export default {
   name: 'Tasks',
@@ -157,7 +179,8 @@ export default {
     InputControl,
     TagControl,
     TaskGroup,
-    TaskWeek
+    TaskWeek,
+    TaskMonth
   },
   data () {
     return {
@@ -171,11 +194,30 @@ export default {
       selected: 'columns',
       options: [
         { html: '<i class="fas fa-columns">', value: 'columns' },
+        { html: '<i class="fas fa-calendar">', value: 'monthly' },
         { html: '<i class="fas fa-grip-horizontal">', value: 'weekly' }
-      ]
+      ],
+      selectedMonth: new Date(Date.now()).getUTCMonth(),
+      selectedYear: new Date(Date.now()).getUTCFullYear(),
+      monthNames: ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
     }
   },
   computed: {
+    monthName: function () {
+      return this.monthNames[this.selectedMonth]
+    },
+    nextMonthName: function () {
+      if (this.selectedMonth+1 > 11) {
+        return this.monthNames[0]
+      }
+      return this.monthNames[this.selectedMonth+1]
+    },
+    prevMonthName: function () {
+      if (this.selectedMonth-1 < 0) {
+        return this.monthNames[11]
+      }
+      return this.monthNames[this.selectedMonth-1]
+    },
     tasksForGroup: function () {
       return this.selectedGroup !== ''
         ? this.tasks.filter(x => x.group === this.selectedGroup._id)
@@ -212,6 +254,22 @@ export default {
     },
     getNextMonday () {
       return nextMonday(Date.now()).toString()
+    },
+    selectNextMonth () {
+      if (this.selectedMonth+1 > 11) {
+        this.selectedMonth = 0
+        this.selectedYear++
+      } else {
+        this.selectedMonth++
+      }
+    },
+    selectPrevMonth () {
+      if (this.selectedMonth-1 < 0) {
+        this.selectedMonth = 11
+        this.selectedYear--
+      } else {
+        this.selectedMonth--
+      }
     },
     selectGroup (group) {
       if (group !== '') {
