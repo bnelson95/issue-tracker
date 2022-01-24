@@ -92,7 +92,7 @@ router.get('/profile', async (req, res) => {
   })(req, res)
 })
 
-router.post('/profile', async (req, res) => {
+router.put('/profile', async (req, res) => {
   passport.authenticate('jwt', { session: false }, async (_err, user, info) => {
     if (!user) { res.status(403) }
     try {
@@ -108,7 +108,7 @@ router.post('/profile', async (req, res) => {
   })(req, res)
 })
 
-router.post('/password', async (req, res) => {
+router.put('/password', async (req, res) => {
   passport.authenticate('jwt', { session: false }, async (_err, user, info) => {
     if (!user) { res.status(403) }
     try {

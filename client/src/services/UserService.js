@@ -14,10 +14,10 @@ export default {
     return Api().get('/user/profile')
   },
   updateProfile (params) {
-    return Api().post('/user/profile', params)
+    return Api().put('/user/profile', params)
   },
   updatePassword (params) {
-    return Api().post('/user/password', params)
+    return Api().put('/user/password', params)
   },
   forgotPassword (params) {
     return Api().post('/user/login/forgot', params)
