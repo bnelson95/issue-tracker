@@ -172,7 +172,7 @@ import TagControl from '@/components/controls/TagControl.vue'
 import TaskGroup from './TaskGroup.vue'
 import TaskWeek from './TaskWeek.vue'
 import TaskMonth from './TaskMonth.vue'
-import { previousMonday, nextMonday, isWeekend } from 'date-fns'
+import { previousMonday, nextMonday, isWeekend, isMonday } from 'date-fns'
 export default {
   name: 'Tasks',
   components: {
@@ -250,10 +250,17 @@ export default {
   },
   methods: {
     getThisMonday () {
-      if (isWeekend(Date.now())) {
-        return nextMonday(Date.now()).toString()
+      const today = new Date()
+      // Monday -> Today
+      if (isMonday(today)) {
+        return today.toString()
       }
-      return previousMonday(Date.now()).toString()
+      // Saturday / Sunday -> Upcoming Monday
+      if (isWeekend(today)) {
+        return nextMonday(today).toString()
+      }
+      // Tuesday / Wednesday / Thursday / Friday -> Previous Monday
+      return previousMonday(today).toString()
     },
     getNextMonday () {
       return nextMonday(new Date(this.getThisMonday())).toString()
