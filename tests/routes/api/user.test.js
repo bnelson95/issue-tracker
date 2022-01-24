@@ -21,7 +21,9 @@ afterEach((done) => {
 })
 
 const NAME = 'Test User'
+const NAME2 = 'Briskar'
 const EMAIL = 'test@test.com'
+const EMAIL2 = 'user@email.com'
 const INVALID_EMAIL = 'test@'
 const PASSWORD = 'password'
 const PASSWORD2 = 'notmatchingpassword'
@@ -183,17 +185,57 @@ test('Register, login, then logout: Expects success', async () => {
     })
 })
 
-test('Get tasks: Expects success', async () => {
+// MOVE THIS
+// test('Get tasks: Expects success', async () => {
+//   const app = initExpress()
+//   await register(app)
+//   const token = await login(app)
+//   expect(token).toBeTruthy()
+//   await request(app)
+//     .get('/api/task')
+//     .set('Cookie', `token=${token};`)
+//     .set('Content-Type', 'application/json')
+//     .expect(200)
+//     .then((response) => {
+//       expect(response.body.tasks).toStrictEqual([])
+//     })
+// })
+
+// PROFILE ----------------------------------------------------------------------------------------
+
+test('Get Profile', async () => {
   const app = initExpress()
   await register(app)
   const token = await login(app)
-  expect(token).toBeTruthy()
   await request(app)
-    .get('/api/task')
+    .get('/api/user/profile')
     .set('Cookie', `token=${token};`)
     .set('Content-Type', 'application/json')
     .expect(200)
-    .then((response) => {
-      expect(response.body.tasks).toStrictEqual([])
+    .then(response => {
+      expect(response.body.profile.name).toBe(NAME)
+      expect(response.body.profile.email).toBe(EMAIL)
     })
 })
+
+test('Change profile', async () => {
+  const app = initExpress()
+  await register(app)
+  const token = await login(app)
+  await request(app)
+    .put('/api/user/profile')
+    .set('Cookie', `token=${token};`)
+    .set('Content-Type', 'application/json')
+    .send({ name: NAME2, email: EMAIL2})
+    .expect(200)
+    .then(response => {
+      expect(response.body.profile.name).toBe(NAME2)
+      expect(response.body.profile.email).toBe(EMAIL2)
+    })
+})
+
+// PUT /password
+
+// POST /login/forgot
+
+// POST /login/reset/:token
