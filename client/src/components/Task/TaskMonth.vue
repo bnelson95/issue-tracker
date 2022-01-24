@@ -27,7 +27,7 @@
               </span>
             </b-col>
             <b-col class="text-center col-auto">
-              <b-button @click="newTaskDueOn = new Date(day)" v-b-modal.add-task-modal class="p-0 px-1 d-block" variant="primary">
+              <b-button @click="newTaskDueOn = day" v-b-modal.add-task-modal class="p-0 px-1 d-block" variant="primary">
                 <i class="fas fa-plus"></i>
               </b-button>
             </b-col>
@@ -96,7 +96,7 @@ export default {
     selectTaskForEdit (task) {
       this.selectedTask = task
       this.newTaskTitle = this.selectedTask.title
-      this.newTaskDueOn = new Date(this.selectedTask.dueOn)
+      this.newTaskDueOn = this.selectedTask.dueOn
     },
     async saveTask () {
       this.selectedTask.title = this.newTaskTitle
@@ -113,7 +113,8 @@ export default {
       this.newTaskDueOn = undefined
     },
     getFirstMonday () {
-      const firstDayOfMonth = new Date(this.year, this.month, 1)
+      let firstDayOfMonth = new Date(this.year, this.month, 1)
+      firstDayOfMonth = new Date(firstDayOfMonth.setHours(0, 0, 0, 0))
       if (isMonday(firstDayOfMonth)) {
         return firstDayOfMonth
       }
@@ -123,7 +124,8 @@ export default {
       return previousMonday(firstDayOfMonth)
     },
     getLastFriday () {
-      const lastDayofMonth = lastDayOfMonth(new Date(this.year, this.month, 1))
+      let lastDayofMonth = lastDayOfMonth(new Date(this.year, this.month, 1))
+      lastDayofMonth = new Date(lastDayofMonth.setHours(0, 0, 0, 0))
       if (isFriday(lastDayofMonth)) {
         return lastDayofMonth
       }

@@ -1,14 +1,17 @@
 <template>
-  <b-card-group>
-    <task-day title="Monday" :date="getDate(0)" :tasks="tasksForDay(0)" />
-    <task-day title="Tuesday" :date="getDate(1)" :tasks="tasksForDay(1)" />
-    <task-day title="Wednesday" :date="getDate(2)" :tasks="tasksForDay(2)" />
-    <task-day title="Thursday" :date="getDate(3)" :tasks="tasksForDay(3)" />
-    <task-day title="Friday" :date="getDate(4)" :tasks="tasksForDay(4)" />
+  <b-card-group >
+    <task-day
+      v-for="(day, i) in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']"
+      v-bind:key="i"
+      :title="day"
+      :date="getDate(i)"
+      :tasks="tasksForDay(i)"
+    />
   </b-card-group>
 </template>
 
 <script>
+import { addDays } from 'date-fns'
 import TaskDay from './TaskDay.vue'
 export default {
   name: 'TaskWeek',
@@ -22,15 +25,20 @@ export default {
   },
   methods: {
     tasksForDay (days) {
-      let date = new Date(this.startDate)
-      date.setUTCDate(date.getUTCDate() + days)
+      let date = this.getDate(days)
       return this.tasks
-        .filter(x =>  new Date(x.dueOn).getUTCDate() === date.getUTCDate())
+        .filter(x => this.dateEquals(new Date(x.dueOn), date))
     },
     getDate (days) {
       let date = new Date(this.startDate)
-      date.setUTCDate(date.getUTCDate() + days)
+      date = addDays(date, days)
+      date = new Date(date.setHours(0,0,0,0))
       return date
+    },
+    dateEquals(date1, date2) {
+      return date1.getUTCFullYear() === date2.getUTCFullYear()
+          && date1.getUTCMonth() === date2.getUTCMonth()
+          && date1.getUTCDate() === date2.getUTCDate()
     }
   }
 }
