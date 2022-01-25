@@ -1,5 +1,5 @@
 <template>
-  <single-select-control title="Status" :value="task.status" :source="statuses" @input="input">
+  <single-select-control title="Status" :value="value" :source="statuses" @input="input">
     <template v-slot:button-content>
       <i :class="'fas mr-2 ' + statusIcon"></i> {{ statusText }}
     </template>
@@ -26,19 +26,19 @@ export default {
   },
   computed: {
     statusText: function () {
-      return this.task && this.task.status
-        ? this.statuses[this.task.status].text
+      return this.value
+        ? this.statuses[this.value].text
         : ''
     },
     statusIcon: function () {
-      return this.task && this.task.status
-        ? this.statuses[this.task.status].icon
+      return this.value
+        ? this.statuses[this.value].icon
         : ''
     }
   },
   props: {
-    task: {
-      type: Object
+    value: {
+      type: String
     },
     input: {
       type: Function

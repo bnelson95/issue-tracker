@@ -30,7 +30,7 @@
           <template v-slot:button-content>{{ groupText || "No group" }}</template>
           <template v-slot:item-content="slotProps">{{ slotProps.item.title }}</template>
         </single-select-control>
-        <status-control :task="task" :input="value => task.status = value" />
+        <status-control :value="task.status" :input="value => task.status = value" />
         <priority-control :task="task" :input="value => task.priority = value" />
         <date-control title="Due Date" :value="task.dueOn" @input="value => task.dueOn = value" />
         <tag-control title="Tags" :value="task.tags" @input="value => task.tags = value" />
