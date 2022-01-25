@@ -17,25 +17,25 @@
     <b-row class="m-0">
       <b-col v-for="(day) in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']" 
         v-bind:key="day"
-        class="p-2">
-        <b class="ml-1">{{ day }}</b>
+        class="p-2 pr-3 text-right">
+        <b class="ml-1 text-right">{{ day }}</b>
       </b-col>
     </b-row>
     <div class="rounded bg-white border">
       <b-row v-for="week in getWeeks()" v-bind:key="week[0].getTime()" class="m-0 border-bottom">
-        <b-col v-for="day in week" v-bind:key="day.getTime()" class="border-right p-0"
+        <b-col v-for="day in week" v-bind:key="day.getTime()" class="border-right p-0 overflow-hidden"
           :class="{'text-secondary font-italic bg-light':day.getUTCMonth() !== month}">
-          <b-row class="p-2">
-            <b-col class="text-nowrap overflow-hidden font-weight-bold">
-              <span class="ml-1">
-                <span v-if="day.getUTCDate() === 1 && day.getUTCMonth() !== month">{{ day.toLocaleDateString('en-US', { month: 'short' }) }} </span>
-                <span>{{ day.getUTCDate() }}</span>
-              </span>
-            </b-col>
-            <b-col class="text-center col-auto">
+          <b-row class="p-2 pr-3">
+            <b-col>
               <b-button @click="newTaskDueOn = day" v-b-modal.add-task-modal class="p-0 px-1 d-block" variant="primary">
                 <i class="fas fa-plus"></i>
               </b-button>
+            </b-col>
+            <b-col class="font-weight-bold col-auto">
+              <span>
+                <span v-if="day.getUTCDate() === 1 && day.getUTCMonth() !== month">{{ day.toLocaleDateString('en-US', { month: 'short' }) }} </span>
+                <span>{{ day.getUTCDate() }}</span>
+              </span>
             </b-col>
           </b-row>
           <b-list-group flush class="items">
@@ -43,7 +43,7 @@
               class="p-2"
               v-b-modal.edit-task-modal
               @click="selectTaskForEdit(task)">
-              {{ task.title || 'Untitled' }}
+              <h6 class="m-0">{{ task.title || 'Untitled' }}</h6>
             </b-list-group-item>
           </b-list-group>
         </b-col>

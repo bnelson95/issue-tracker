@@ -1,6 +1,6 @@
 <template>
   <b-card no-body 
-    header-class="py-2 px-3"
+    header-class="py-2 pr-3 pl-2"
     :header-bg-variant="isToday ? 'primary' : ''"
     :header-text-variant="isToday ? 'white' : ''">
     <template v-slot:header>
@@ -16,7 +16,7 @@
     <b-list-group flush>
       <b-list-group-item v-for="(task) in tasks" v-bind:key="task._id"
         button
-        class="py-2 px-3"
+        class="p-2"
         @click="selectTaskForEdit(task)">
         <h6 class="m-0">{{ task.title || 'Untitled' }}</h6>
       </b-list-group-item>
