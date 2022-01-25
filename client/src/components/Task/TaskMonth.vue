@@ -3,10 +3,16 @@
     <b-modal title="Add Task" id="add-task-modal" @ok="addTask" @cancel="clearAddTaskValues" @hide="clearAddTaskValues">
       <input-control title="Title" :value="newTaskTitle" @input="value => newTaskTitle = value" />
       <date-control title="Due Date" :value="newTaskDueOn" @input="value => newTaskDueOn = value" />
+      <toggle-control title="Due Date Is Negotiable"
+        :value="newTaskDueOnIsNegotiable"
+        @input="value => newTaskDueOnIsNegotiable = value" />
     </b-modal>
     <b-modal title="Edit Task" id="edit-task-modal" @ok="saveTask" @cancel="clearAddTaskValues" @hide="clearAddTaskValues">
       <input-control title="Title" :value="newTaskTitle" @input="value => newTaskTitle = value" />
       <date-control title="Due Date" :value="newTaskDueOn" @input="value => newTaskDueOn = value" />
+      <toggle-control title="Due Date Is Negotiable"
+        :value="newTaskDueOnIsNegotiable"
+        @input="value => newTaskDueOnIsNegotiable = value" />
     </b-modal>
     <b-row class="m-0">
       <b-col v-for="(day) in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']" 
@@ -49,6 +55,7 @@
 <script>
 import InputControl from '@/components/controls/InputControl.vue'
 import DateControl from '@/components/controls/DateControl.vue'
+import ToggleControl from '@/components/controls/ToggleControl.vue'
 import TaskService from '@/services/Tasks/TaskService'
 import {
   nextMonday,
@@ -66,12 +73,14 @@ export default {
   components: {
     InputControl,
     DateControl,
+    ToggleControl
   },
   data () {
     return {
       newTaskTitle: '',
       newTaskGroup: '',
       newTaskDueOn: undefined,
+      newTaskDueOnIsNegotiable: false,
       selectedTask: undefined
     }
   },
@@ -85,6 +94,7 @@ export default {
       const task = {
         title: this.newTaskTitle,
         dueOn: this.newTaskDueOn,
+        dueOnIsNegotiable: this.newTaskDueOnIsNegotiable,
         description: '',
       }
       const res = await TaskService.addTask(task)
@@ -97,20 +107,25 @@ export default {
       this.selectedTask = task
       this.newTaskTitle = this.selectedTask.title
       this.newTaskDueOn = this.selectedTask.dueOn
+      this.newTaskDueOnIsNegotiable = this.selectedTask.dueOnIsNegotiable
     },
     async saveTask () {
       this.selectedTask.title = this.newTaskTitle
       this.selectedTask.dueOn = this.newTaskDueOn
+      this.selectedTask.dueOnIsNegotiable = this.newTaskDueOnIsNegotiable
       const res = await TaskService.updateTask(this.selectedTask)
       if (res.status === 200) {
-        let index = this.tasks.findIndex((task => task._id == this.selectedTask._id));
-        this.task[index] = res.data.newTask
+        let index = this.tasks.findIndex((task => task._id == res.data.task._id));
+        this.tasks.splice(index, 1)
+        this.tasks.push(res.data.task)
       }
       this.clearAddTaskValues()
     },
     clearAddTaskValues () {
+      this.selectedTask = undefined
       this.newTaskTitle = ''
       this.newTaskDueOn = undefined
+      this.newTaskDueOnIsNegotiable = false
     },
     getFirstMonday () {
       let firstDayOfMonth = new Date(this.year, this.month, 1)
