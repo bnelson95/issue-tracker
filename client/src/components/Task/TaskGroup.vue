@@ -55,16 +55,6 @@
 <script>
 import _ from 'lodash'
 export default {
-  data () {
-    return {
-      priorities: { // TODO translate
-        'urgent': { text: 'Urgent', icon: 'fa-exclamation text-danger', rank: 0 },
-        'high': { text: 'High', icon: 'fa-angle-double-up text-warning', rank: 1 },
-        'normal': { text: 'Normal', icon: '', rank: 2 },
-        'low': { text: 'Low', icon: 'fa-angle-down text-success', rank: 3 }
-      }
-    }
-  },
   props: {
     cardBorderVariant: { type: String },
     title: { type: String },
@@ -87,10 +77,10 @@ export default {
   },
   methods: {
     getPriorityIcon (task) {
-      return this.priorities[task.priority].icon
+      return this.$store.getters.getPriorityIcon(task.priority)
     },
     getPriorityRank (task) {
-      return this.priorities[task.priority].rank
+      return this.$store.getters.getPriorityRank(task.priority)
     }
   }
 }
