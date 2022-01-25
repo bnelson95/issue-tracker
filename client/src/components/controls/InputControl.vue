@@ -6,6 +6,7 @@
         shadow-none
         :placeholder="title"
         :value="value"
+        :readonly="readonly"
         @input="$emit('input', $event)">
       </b-form-input>
     </template>
@@ -37,6 +38,9 @@ export default {
     type: {
       type: String,
       default: "text"
+    },
+    readonly: {
+      type: Boolean
     }
   },
   computed: {
