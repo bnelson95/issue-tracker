@@ -1,6 +1,6 @@
 <template>
   <b-container>
-    <b-row class="mt-4 mb-3">
+    <b-row class="my-3">
       <b-col cols="8">
         <b-button-group>
           <b-button @click="$router.push({ name: 'Tasks' })" variant="dark">

@@ -56,7 +56,7 @@
         </b-list-group-item>
       </b-list-group>
     </b-sidebar>
-    <b-row class="mt-4 my-3 align-items-center">
+    <b-row class="my-3 align-items-center">
       <b-col class="col-auto">
         <b-form-radio-group
           id="btn-radios-1"
