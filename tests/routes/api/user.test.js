@@ -226,7 +226,7 @@ test('Change profile', async () => {
     .put('/api/user/profile')
     .set('Cookie', `token=${token};`)
     .set('Content-Type', 'application/json')
-    .send({ name: NAME2, email: EMAIL2})
+    .send({ name: NAME2, email: EMAIL2 })
     .expect(200)
     .then(response => {
       expect(response.body.profile.name).toBe(NAME2)
