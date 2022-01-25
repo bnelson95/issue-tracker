@@ -14,20 +14,41 @@
       </b-row>
     </template>
     <b-list-group flush>
-      <b-list-group-item class="py-2 px-3" v-for="(task) in tasks" v-bind:key="task._id">
+      <b-list-group-item v-for="(task) in tasks" v-bind:key="task._id"
+        button
+        class="py-2 px-3"
+        @click="selectTaskForEdit(task)">
         <h6 class="m-0">{{ task.title || 'Untitled' }}</h6>
       </b-list-group-item>
     </b-list-group>
+    <b-modal v-model="modalShow" title="Edit Task" @ok="saveTask" @cancel="clearAddTaskValues" @hide="clearAddTaskValues">
+      <input-control readonly v-if="selectedTask" title="Title" :value="selectedTask.title" />
+      <status-control :value="newTaskStatus" :input="value => newTaskStatus = value" />
+    </b-modal>
   </b-card>
 </template>
 
 <script>
+import TaskService from '@/services/Tasks/TaskService'
+import InputControl from '@/components/controls/InputControl.vue'
+import StatusControl from '@/components/Task/controls/StatusControl.vue'
 export default {
   name: 'TaskDay',
+  components: {
+    InputControl,
+    StatusControl
+  },
   props: {
     title: { type: String },
     date: { type: Date },
     tasks: { type: Array }
+  },
+  data () {
+    return {
+      modalShow: false,
+      selectedTask: undefined,
+      newTaskStatus: ''
+    }
   },
   computed: {
     number: function () {
@@ -39,6 +60,27 @@ export default {
         this.date.getMonth() == today.getMonth() &&
         this.date.getFullYear() == today.getFullYear()
       return isToday
+    }
+  },
+  methods: {
+    selectTaskForEdit (task) {
+      this.modalShow = true
+      this.selectedTask = task
+      this.newTaskStatus = this.selectedTask.status
+    },
+    async saveTask () {
+      this.selectedTask.status = this.newTaskStatus
+      const res = await TaskService.updateTask(this.selectedTask)
+      if (res.status === 200) {
+        let index = this.tasks.findIndex((task => task._id == res.data.task._id));
+        this.tasks.splice(index, 1)
+        this.tasks.push(res.data.task)
+      }
+      this.clearAddTaskValues()
+    },
+    clearAddTaskValues () {
+      this.selectedTask = undefined
+      this.newTaskStatus = ''
     }
   }
 }
