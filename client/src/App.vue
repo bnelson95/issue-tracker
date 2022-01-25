@@ -107,8 +107,6 @@ button:focus {
 }
 .dropdown-menu {
   padding: 0;
-  border: 0;
-  box-shadow: 0 0.2rem 0.9rem rgba(0, 0, 0, 0.1) !important;
 }
 .shadow-inset-z {
   box-shadow: inset 0 -0.2rem 0.9rem rgba(0, 0, 0, 0.1) !important;
