@@ -16,6 +16,9 @@ const TaskSchema = new Schema({
   dueOn: {
     type: Date
   },
+  dueOnIsNegotiable: {
+    type: Boolean
+  },
   priority: {
     type: String,
     enum: ['low', 'normal', 'high', 'urgent'],

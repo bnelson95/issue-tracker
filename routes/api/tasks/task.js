@@ -56,6 +56,7 @@ router.post('/', async (req, res) => {
       createdBy: user.id,
       group: req.body.group,
       dueOn: req.body.dueOn,
+      dueOnIsNegotiable: req.body.dueOnIsNegotiable,
       sharedWith: []
     }
     new Task(doc).save()
@@ -96,6 +97,7 @@ router.put('/:id', async (req, res) => {
         task.tags = req.body.tags
         task.links = req.body.links
         task.dueOn = req.body.dueOn
+        task.dueOnIsNegotiable = req.body.dueOnIsNegotiable
         task.changedOn = Date.now()
         task.save()
           .then(newTask => res.status(200).send({ task: newTask }))
