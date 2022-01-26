@@ -27,7 +27,7 @@ export default {
     tasksForDay (days) {
       let date = this.getDate(days)
       return this.tasks
-        .filter(x => this.dateEquals(new Date(x.dueOn), date))
+        .filter(x => this.dateEquals(new Date(x.dueOn), date) && x.status !== 'completed')
     },
     getDate (days) {
       let date = new Date(this.startDate)
