@@ -2,6 +2,7 @@
   <div>
     <b-modal title="Add Task" id="add-task-modal" @ok="addTask" @cancel="clearAddTaskValues" @hide="clearAddTaskValues">
       <input-control title="Title" :value="newTaskTitle" @input="value => newTaskTitle = value" />
+      <priority-control :value="newTaskPriority" :input="value => newTaskPriority = value" />
       <date-control title="Due Date" :value="newTaskDueOn" @input="value => newTaskDueOn = value" />
       <toggle-control title="Due Date Is Negotiable"
         :value="newTaskDueOnIsNegotiable"
@@ -9,10 +10,12 @@
     </b-modal>
     <b-modal title="Edit Task" id="edit-task-modal" @ok="saveTask" @cancel="clearAddTaskValues" @hide="clearAddTaskValues">
       <input-control title="Title" :value="newTaskTitle" @input="value => newTaskTitle = value" />
+      <priority-control :value="newTaskPriority" :input="value => newTaskPriority = value" />
       <date-control title="Due Date" :value="newTaskDueOn" @input="value => newTaskDueOn = value" />
       <toggle-control title="Due Date Is Negotiable"
         :value="newTaskDueOnIsNegotiable"
         @input="value => newTaskDueOnIsNegotiable = value" />
+      <status-control :value="newTaskStatus" :input="value => newTaskStatus = value" />
     </b-modal>
     <b-row class="m-0">
       <b-col v-for="(day) in ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']" 
@@ -24,7 +27,10 @@
     <div class="rounded bg-white border">
       <b-row v-for="week in getWeeks()" v-bind:key="week[0].getTime()" class="m-0 border-bottom">
         <b-col v-for="day in week" v-bind:key="day.getTime()" class="border-right p-0 overflow-hidden"
-          :class="{'text-secondary font-italic bg-light':day.getUTCMonth() !== month}">
+          :class="{
+            'text-secondary font-italic bg-light': day.getUTCMonth() !== month,
+            'bg-primary': dateEquals(day, new Date())
+          }">
           <b-row class="p-2 pr-3">
             <b-col>
               <b-button @click="newTaskDueOn = day" v-b-modal.add-task-modal class="p-0 px-1 d-block" variant="primary">
@@ -32,18 +38,24 @@
               </b-button>
             </b-col>
             <b-col class="font-weight-bold col-auto">
-              <span>
+              <span :class="{'text-white': dateEquals(day, new Date())}">
                 <span v-if="day.getUTCDate() === 1 && day.getUTCMonth() !== month">{{ day.toLocaleDateString('en-US', { month: 'short' }) }} </span>
                 <span>{{ day.getUTCDate() }}</span>
               </span>
             </b-col>
           </b-row>
-          <b-list-group flush class="items">
+          <b-list-group flush class="items" :class="{'m-2 rounded': dateEquals(day, new Date())}">
             <b-list-group-item button v-for="task in getDueTasksForDay(day)" v-bind:key="task.id" 
               class="p-2"
               v-b-modal.edit-task-modal
               @click="selectTaskForEdit(task)">
               <h6 class="m-0">{{ task.title || 'Untitled' }}</h6>
+              <b-row no-gutters class="bg-light rounded mt-2 ">
+                <b-col v-for="icon in $store.getters.getIconsForTask(task)" v-bind:key="icon.icon"
+                  class="priority-col text-center" align-self="end">
+                  <i v-b-tooltip.hover.bottom="icon.tooltipText" :class="'fas ' + icon.icon"></i>
+                </b-col>
+              </b-row>
             </b-list-group-item>
           </b-list-group>
         </b-col>
@@ -56,6 +68,8 @@
 import InputControl from '@/components/controls/InputControl.vue'
 import DateControl from '@/components/controls/DateControl.vue'
 import ToggleControl from '@/components/controls/ToggleControl.vue'
+import StatusControl from '@/components/Task/controls/StatusControl.vue'
+import PriorityControl from '@/components/Task/controls/PriorityControl.vue'
 import TaskService from '@/services/Tasks/TaskService'
 import {
   nextMonday,
@@ -73,7 +87,9 @@ export default {
   components: {
     InputControl,
     DateControl,
-    ToggleControl
+    ToggleControl,
+    StatusControl,
+    PriorityControl
   },
   data () {
     return {
@@ -81,6 +97,8 @@ export default {
       newTaskGroup: '',
       newTaskDueOn: undefined,
       newTaskDueOnIsNegotiable: false,
+      newTaskStatus: undefined,
+      newTaskPriority: undefined,
       selectedTask: undefined
     }
   },
@@ -93,6 +111,7 @@ export default {
     async addTask () {
       const task = {
         title: this.newTaskTitle,
+        priority: this.newTaskPriority,
         dueOn: this.newTaskDueOn,
         dueOnIsNegotiable: this.newTaskDueOnIsNegotiable,
         description: '',
@@ -106,13 +125,17 @@ export default {
     selectTaskForEdit (task) {
       this.selectedTask = task
       this.newTaskTitle = this.selectedTask.title
+      this.newTaskPriority = this.selectedTask.priority
       this.newTaskDueOn = this.selectedTask.dueOn
       this.newTaskDueOnIsNegotiable = this.selectedTask.dueOnIsNegotiable
+      this.newTaskStatus = this.selectedTask.status
     },
     async saveTask () {
       this.selectedTask.title = this.newTaskTitle
+      this.selectedTask.priority = this.newTaskPriority
       this.selectedTask.dueOn = this.newTaskDueOn
       this.selectedTask.dueOnIsNegotiable = this.newTaskDueOnIsNegotiable
+      this.selectedTask.status = this.newTaskStatus
       const res = await TaskService.updateTask(this.selectedTask)
       if (res.status === 200) {
         let index = this.tasks.findIndex((task => task._id == res.data.task._id));
@@ -123,9 +146,11 @@ export default {
     },
     clearAddTaskValues () {
       this.selectedTask = undefined
-      this.newTaskTitle = ''
+      this.newTaskTitle = undefined
+      this.newTaskPriority = undefined
       this.newTaskDueOn = undefined
       this.newTaskDueOnIsNegotiable = false
+      this.newSelectedTask = undefined
     },
     getFirstMonday () {
       let firstDayOfMonth = new Date(this.year, this.month, 1)
@@ -166,13 +191,18 @@ export default {
     },
     getDueTasksForDay (day) {
       return this.tasks.filter(x => {
-        return this.dateEquals(new Date(day), new Date(x.dueOn))
+        return this.dateUTCEquals(new Date(day), new Date(x.dueOn))
       })
     },
-    dateEquals(date1, date2) {
+    dateUTCEquals(date1, date2) {
       return date1.getUTCFullYear() === date2.getUTCFullYear()
           && date1.getUTCMonth() === date2.getUTCMonth()
           && date1.getUTCDate() === date2.getUTCDate()
+    },
+    dateEquals(date1, date2) {
+      return date1.getFullYear() === date2.getFullYear()
+          && date1.getMonth() === date2.getMonth()
+          && date1.getDate() === date2.getDate()
     }
   }
 }

@@ -19,6 +19,14 @@
         class="p-2"
         @click="selectTaskForEdit(task)">
         <h6 class="m-0">{{ task.title || 'Untitled' }}</h6>
+        <b-row no-gutters class="align-items-center bg-light rounded mt-2">
+          <b-col v-for="icon in $store.getters.getIconsForTask(task)" v-bind:key="icon.icon"
+            class="priority-col text-center">
+            <i v-b-tooltip.hover.bottom="icon.tooltipText"
+              :class="'fas ' + icon.icon">
+            </i>
+          </b-col>
+        </b-row>
       </b-list-group-item>
     </b-list-group>
     <b-modal v-model="modalShow" title="Edit Task" @ok="saveTask" @cancel="clearAddTaskValues" @hide="clearAddTaskValues">

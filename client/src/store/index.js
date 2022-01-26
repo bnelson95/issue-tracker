@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
+import { isPast } from 'date-fns'
+
 Vue.use(Vuex)
 
 export const store = new Vuex.Store({
@@ -12,6 +14,11 @@ export const store = new Vuex.Store({
       high: { text: 'High', icon: 'fa-angle-double-up text-danger', rank: 1 },
       normal: { text: 'Normal', icon: 'fa-equals text-warning', rank: 2 },
       low: { text: 'Low', icon: 'fa-angle-down text-success', rank: 3 }
+    },
+    icons: {
+      completed: { icon: 'fa-check text-success', tooltipText: 'Completed' },
+      pastDue: { icon: 'fa-exclamation-triangle text-danger', tooltipText: 'Past due!' },
+      nonNegotiable: { icon: 'fa-calendar-times', tooltipText: 'Non-negotiable!' }
     }
   },
   mutations: {
@@ -31,6 +38,24 @@ export const store = new Vuex.Store({
     },
     getPriorityRank: (state) => (key) => {
       return state.priorities[key].rank
+    },
+    getIconsForTask: (state, getters) => (task) => {
+      const icons = []
+      if (task.status === 'completed') {
+        icons.push(state.icons.completed)
+        return icons
+      }
+      if (isPast(new Date(task.dueOn)) && task.status !== 'completed') {
+        icons.push(state.icons.pastDue)
+      }
+      if (task.dueOnIsNegotiable != undefined && !task.dueOnIsNegotiable) {
+        icons.push(state.icons.nonNegotiable)
+      }
+      icons.push({
+        icon: getters.getPriorityIcon(task.priority),
+        tooltipText: getters.getPriorityText(task.priority)
+      })
+      return icons
     }
   }
 })

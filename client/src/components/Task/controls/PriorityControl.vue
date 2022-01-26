@@ -1,5 +1,5 @@
 <template>
-  <single-select-control title="Priority" :value="task.priority" :source="$store.state.priorities" @input="input">
+  <single-select-control title="Priority" :value="value" :source="$store.state.priorities" @input="input">
     <template v-slot:button-content>
       <i :class="'fas mr-2 ' + priorityIcon"></i> {{ priorityText }}
     </template>
@@ -17,19 +17,15 @@ export default {
   },
   computed: {
     priorityText: function () {
-      return this.task && this.task.priority
-        ? this.$store.getters.getPriorityText(this.task.priority)
-        : ''
+      return this.value ? this.$store.getters.getPriorityText(this.value) : ''
     },
     priorityIcon: function () {
-      return this.task && this.task.priority
-        ? this.$store.getters.getPriorityIcon(this.task.priority)
-        : ''
+      return this.value ? this.$store.getters.getPriorityIcon(this.value) : ''
     }
   },
   props: {
-    task: {
-      type: Object
+    value: {
+      type: String
     },
     input: {
       type: Function
