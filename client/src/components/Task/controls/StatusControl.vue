@@ -18,9 +18,9 @@ export default {
   data () {
     return {
       statuses: { // TODO move statuses and priorities to helper file
-        'notstarted': { text: 'Not Started', icon: 'fa-hourglass-start text-primary' },
-        'inprogress': { text: 'In Progress', icon: 'fa-hourglass-half text-info' },
-        'completed': { text: 'Completed', icon: 'fa-hourglass-end text-success' }
+        'notstarted': { text: 'Not Started', icon: 'fa-times text-secondary' },
+        'inprogress': { text: 'In Progress', icon: 'fa-minus text-info' },
+        'completed': { text: 'Completed', icon: 'fa-check text-success' }
       }
     }
   },
