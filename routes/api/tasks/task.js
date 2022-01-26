@@ -57,6 +57,7 @@ router.post('/', async (req, res) => {
       group: req.body.group,
       dueOn: req.body.dueOn,
       dueOnIsNegotiable: req.body.dueOnIsNegotiable,
+      priority: req.body.priority,
       sharedWith: []
     }
     new Task(doc).save()

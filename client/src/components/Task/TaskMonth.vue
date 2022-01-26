@@ -98,7 +98,7 @@ export default {
       newTaskDueOn: undefined,
       newTaskDueOnIsNegotiable: false,
       newTaskStatus: undefined,
-      newTaskPriority: undefined,
+      newTaskPriority: 'normal',
       selectedTask: undefined
     }
   },
@@ -147,10 +147,10 @@ export default {
     clearAddTaskValues () {
       this.selectedTask = undefined
       this.newTaskTitle = undefined
-      this.newTaskPriority = undefined
+      this.newTaskPriority = 'normal'
       this.newTaskDueOn = undefined
       this.newTaskDueOnIsNegotiable = false
-      this.newSelectedTask = undefined
+      this.newTaskStatus = undefined
     },
     getFirstMonday () {
       let firstDayOfMonth = new Date(this.year, this.month, 1)
